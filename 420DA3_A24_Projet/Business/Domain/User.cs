@@ -46,12 +46,21 @@ public class User {
     public byte[] RowVersion { get; set; } = null!;
 
     // Propriétés de navigation
+
+    /// <summary>
+    /// Les rôles de l'utilisateur.
+    /// </summary>
     public virtual List<Role> Roles { get; set; } = new List<Role>();
     //public virtual List<ShippingOrder> CreatedShippingOrders { get; set; } = new List<ShippingOrder>();
     //public virtual List<ShippingOrder> FulfilledShippingOrders { get; set; } = new List<ShippingOrder>();
     //public virtual Warehouse? EmployeeWarehouse { get; set; };
 
-    // Constructeurs
+    /// <summary>
+    /// patati patata faux changement pour créer un merge conflict!
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="passwordHash"></param>
+    /// <param name="employeeWarehouseId"></param>
     public User(string username, string passwordHash, int? employeeWarehouseId = null) {
         this.Username = username;
         this.PasswordHash = passwordHash;
