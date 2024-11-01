@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _420DA3_A24_Projet.Business.Domain;
+﻿namespace _420DA3_A24_Projet.Business.Domain;
 
 /// <summary>
 /// Classe représentant un utilisateur de l'application
@@ -37,23 +31,23 @@ public class User {
     private string passwordHash = null!;
 
     // propriétés de données
-    public int Id { 
-        get { return this.id; } 
+    public int Id {
+        get { return this.id; }
         set {
             if (!ValidateId(value)) {
                 throw new ArgumentOutOfRangeException("Id", "Id must be greater than or equal to 0.");
             }
             this.id = value;
-        } 
+        }
     }
-    public string Username { 
-        get { return this.username; } 
+    public string Username {
+        get { return this.username; }
         set {
             if (!ValidateUsername(value)) {
                 throw new ArgumentOutOfRangeException("Username", $"Username length must be greater than or equal to {USERNAME_MIN_LENGTH} characters and lower than or equal to {USERNAME_MAX_LENGTH} characters.");
             }
             this.username = value;
-        } 
+        }
     }
     public string PasswordHash {
         get { return this.passwordHash; }
@@ -132,7 +126,7 @@ public class User {
     /// <param name="username">Le nom d'utilisateur à valider</param>
     /// <returns><see langword="true"/> si valide, <see langword="false"/> sinon.</returns>
     public static bool ValidateUsername(string username) {
-        return username.Length >= USERNAME_MIN_LENGTH 
+        return username.Length >= USERNAME_MIN_LENGTH
             && username.Length <= USERNAME_MAX_LENGTH;
     }
 
