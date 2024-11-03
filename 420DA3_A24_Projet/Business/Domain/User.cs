@@ -1,7 +1,7 @@
 ﻿namespace _420DA3_A24_Projet.Business.Domain;
 
 /// <summary>
-/// Classe représentant un utilisateur de l'application
+/// Classe représentant un utilisateur de l'application.
 /// </summary>
 public class User {
     /// <summary>
@@ -30,7 +30,8 @@ public class User {
     private string username = null!;
     private string passwordHash = null!;
 
-    // propriétés de données
+    #region Propriétés de données
+
     public int Id {
         get { return this.id; }
         set {
@@ -64,16 +65,26 @@ public class User {
     public DateTime? DateDeleted { get; set; }
     public byte[] RowVersion { get; set; } = null!;
 
-    // Propriétés de navigation
+    #endregion
+
+
+    #region Propriétés de navigation
 
     /// <summary>
-    /// Les rôles de l'utilisateur.
+    /// Liste des rôles de l'utilisateur.
     /// </summary>
     public virtual List<Role> Roles { get; set; } = new List<Role>();
-    //public virtual List<ShippingOrder> CreatedShippingOrders { get; set; } = new List<ShippingOrder>();
-    //public virtual List<ShippingOrder> FulfilledShippingOrders { get; set; } = new List<ShippingOrder>();
+    /// <summary>
+    /// Liste des ordres d'expédition créés par l'utilisateur (pour employés de bureau et administrateurs).
+    /// </summary>
+    public virtual List<ShippingOrder> CreatedShippingOrders { get; set; } = new List<ShippingOrder>();
+    /// <summary>
+    /// Liste des ordres d'expédition complétés par l'utilisateur (pour employés d'entrepôt).
+    /// </summary>
+    public virtual List<ShippingOrder> FulfilledShippingOrders { get; set; } = new List<ShippingOrder>();
     //public virtual Warehouse? EmployeeWarehouse { get; set; };
 
+    #endregion
 
     /// <summary>
     /// Constructeur orienté création utilisateur
@@ -114,6 +125,9 @@ public class User {
         this.DateDeleted = dateDeleted;
         this.RowVersion = rowVersion;
     }
+
+
+    #region Méthodes
 
     /// <summary>
     /// Méthode de validation d'ID
@@ -182,4 +196,26 @@ public class User {
             return role.Id == Role.WAREHOUSE_EMPLOYEE_ROLE_ID;
         });
     }
+
+    /// <summary>
+    /// Override de la méthode <see cref="object.ToString"/> pour affichage des utilisateurs
+    /// dans des ListBox ou ComboBox.
+    /// </summary>
+    /// <returns>Un string décrivant l'utilisateur.</returns>
+    public override string ToString() {
+        List<string> rolesAbbrev = new List<string>();
+        if (this.IsAdministrator()) {
+            rolesAbbrev.Add("Adm");
+        }
+        if (this.IsOfficeEmployee()) {
+            rolesAbbrev.Add("OffE");
+        }
+        if (this.IsWarehouseEmployee()) {
+            rolesAbbrev.Add("WhE");
+        }
+        return $"#{this.Id} - {this.Username} ({string.Join(", ", rolesAbbrev.ToArray())})";
+    }
+
+    #endregion
+
 }
