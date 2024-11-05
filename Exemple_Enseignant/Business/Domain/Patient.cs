@@ -49,4 +49,6 @@ public class Patient {
         return $"#{this.Id} - {this.Nom}, {this.Prenom} - {this.NumAssMaladie}";
     }
 
+
+
 }

@@ -46,6 +46,7 @@ internal class PatientService {
 
     public Patient Create(Patient patient) {
         try {
+
             return this.dao.Create(patient);
         } catch (Exception ex) {
             throw new Exception("Failed to create new [Patient].", ex);

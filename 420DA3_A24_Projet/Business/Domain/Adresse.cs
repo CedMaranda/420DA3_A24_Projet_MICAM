@@ -1,9 +1,9 @@
 ﻿using System;
 
-public class Address
+public class Adress
 {
     
-    public const int AddresseeMaxLength = 64;
+    public const int AdresseeMaxLength = 64;
     public const int CivicNumberMaxLength = 6;
     public const int StreetMaxLength = 128;
     public const int CityMaxLength = 64;
@@ -12,8 +12,8 @@ public class Address
     public const int PostalCodeMaxLength = 12;
 
     public int Id { get; set; }
-    public AddressType AddressType { get; set; }
-    public string Addressee { get; set; }
+    public AdressType AdressType { get; set; }
+    public string Adressee { get; set; }
     public string CivicNumber { get; set; }
     public string Street { get; set; }
     public string City { get; set; }
@@ -27,9 +27,9 @@ public class Address
     public virtual Warehouse? OwnerWarehouse { get; set; }
     public virtual ShippingOrder? OwnerShipOrder { get; set; }
 
-    public Address(string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, AddressType addressType)
+    public Adress(string adressee, string civicNumber, string street, string city, string state, string country, string postalCode, AddressType addressType)
     {
-        Addressee = addressee;
+        Adressee = adressee;
         CivicNumber = civicNumber;
         Street = street;
         City = city;
@@ -62,6 +62,6 @@ public class Address
     
     public override string ToString()
     {
-        return $"{Addressee}, {CivicNumber} {Street}, {City}, {State}, {Country}, {PostalCode}";
+        return $"{Adressee}, {CivicNumber} {Street}, {City}, {State}, {Country}, {PostalCode}";
     }
 }
