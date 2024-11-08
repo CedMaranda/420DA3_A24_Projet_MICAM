@@ -2,10 +2,18 @@
 using _420DA3_A24_Projet.DataAccess.Contexts;
 
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
+
+/// <summary>
+/// TODO @PROF: Documenter
+/// </summary>
 internal class RoleDAO {
 
     private WsysDbContext context;
 
+    /// <summary>
+    /// TODO @PROF: Documenter
+    /// </summary>
+    /// <param name="context"></param>
     public RoleDAO(WsysDbContext context) {
         this.context = context;
     }
