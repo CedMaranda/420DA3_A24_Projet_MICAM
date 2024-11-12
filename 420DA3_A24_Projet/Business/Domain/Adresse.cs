@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Adress
+public class Adresse
 {
     
     public const int AdresseeMaxLength = 64;
@@ -27,7 +27,7 @@ public class Adress
     public virtual Warehouse? OwnerWarehouse { get; set; }
     public virtual ShippingOrder? OwnerShipOrder { get; set; }
 
-    public Adress(string adresse, string civicNumber, string street, string city, string state, string country, string postalCode, AddressType addressType)
+    public Adresse(string adresse, string civicNumber, string street, string city, string state, string country, string postalCode, AddressType addressType)
     {
         Adresse = adresse;
         CivicNumber = civicNumber;
