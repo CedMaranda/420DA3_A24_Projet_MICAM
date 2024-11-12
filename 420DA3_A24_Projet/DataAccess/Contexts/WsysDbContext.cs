@@ -18,7 +18,6 @@ internal class WsysDbContext : DbContext {
         base.OnModelCreating(modelBuilder);
 
 
-
         #region USER
 
         _ = modelBuilder.Entity<User>()
@@ -31,14 +30,14 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.Id)
-            .HasColumnName("Id")
+            .HasColumnName(nameof(User.Id))
             .HasColumnOrder(0)
             .HasColumnType("int")
             .UseIdentityColumn(1, 1);
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.Username)
-            .HasColumnName("Username")
+            .HasColumnName(nameof(User.Username))
             .HasColumnOrder(1)
             .HasColumnType($"nvarchar({User.USERNAME_MAX_LENGTH})")
             .HasMaxLength(User.USERNAME_MAX_LENGTH)
@@ -46,7 +45,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.PasswordHash)
-            .HasColumnName("PasswordHash")
+            .HasColumnName(nameof(User.PasswordHash))
             .HasColumnOrder(2)
             .HasColumnType($"nvarchar({User.PASSWORDHASH_MAX_LENGTH})")
             .HasMaxLength(User.PASSWORDHASH_MAX_LENGTH)
@@ -54,14 +53,14 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.EmployeeWarehouseId)
-            .HasColumnName("EmployeeWarehouseId")
+            .HasColumnName(nameof(User.EmployeeWarehouseId))
             .HasColumnOrder(3)
             .HasColumnType("int")
             .IsRequired(false);
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.DateCreated)
-            .HasColumnName("DateCreated")
+            .HasColumnName(nameof(User.DateCreated))
             .HasColumnOrder(4)
             .HasColumnType("datetime2")
             .HasPrecision(7)
@@ -70,7 +69,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.DateModified)
-            .HasColumnName("DateModified")
+            .HasColumnName(nameof(User.DateModified))
             .HasColumnOrder(5)
             .HasColumnType("datetime2")
             .HasPrecision(7)
@@ -78,7 +77,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.DateDeleted)
-            .HasColumnName("DateDeleted")
+            .HasColumnName(nameof(User.DateDeleted))
             .HasColumnOrder(6)
             .HasColumnType("datetime2")
             .HasPrecision(7)
@@ -86,9 +85,31 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .Property(user => user.RowVersion)
-            .HasColumnName("RowVersion")
+            .HasColumnName(nameof(User.RowVersion))
             .HasColumnOrder(7)
             .IsRowVersion();
+
+
+        _ = modelBuilder.Entity<User>()
+            .HasOne(user => user.EmployeeWarehouse)
+            .WithMany(warehouse => warehouse.WarehouseEmployees)
+            .HasForeignKey(user => user.EmployeeWarehouseId)
+            .HasPrincipalKey(warehouse => warehouse.Id)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        _ = modelBuilder.Entity<User>()
+            .HasMany(user => user.CreatedShippingOrders)
+            .WithOne(order => order.CreatorEmployee)
+            .HasForeignKey(order => order.CreatorEmployeeId)
+            .HasPrincipalKey(user => user.Id)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<User>()
+            .HasMany(user => user.FulfilledShippingOrders)
+            .WithOne(order => order.FulfillerEmployee)
+            .HasForeignKey(order => order.FulfillerEmployeeId)
+            .HasPrincipalKey(user => user.Id)
+            .IsRequired(false);
 
         #endregion
 
@@ -104,14 +125,14 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Role>()
             .Property(role => role.Id)
-            .HasColumnName("Id")
+            .HasColumnName(nameof(Role.Id))
             .HasColumnOrder(0)
             .HasColumnType("int")
             .UseIdentityColumn(1, 1);
 
         _ = modelBuilder.Entity<Role>()
             .Property(role => role.Name)
-            .HasColumnName("Name")
+            .HasColumnName(nameof(Role.Name))
             .HasColumnOrder(1)
             .HasColumnType($"nvarchar({Role.NAME_MAX_LENGTH})")
             .HasMaxLength(Role.NAME_MAX_LENGTH)
@@ -119,7 +140,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Role>()
             .Property(role => role.Description)
-            .HasColumnName("Description")
+            .HasColumnName(nameof(Role.Description))
             .HasColumnOrder(2)
             .HasColumnType($"nvarchar({Role.DESCRIPTION_MAX_LENGTH})")
             .HasMaxLength(Role.DESCRIPTION_MAX_LENGTH)
@@ -127,7 +148,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Role>()
             .Property(role => role.DateCreated)
-            .HasColumnName("DateCreated")
+            .HasColumnName(nameof(Role.DateCreated))
             .HasColumnOrder(3)
             .HasColumnType("datetime2")
             .HasPrecision(7)
@@ -136,7 +157,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Role>()
             .Property(role => role.DateModified)
-            .HasColumnName("DateModified")
+            .HasColumnName(nameof(Role.DateModified))
             .HasColumnOrder(4)
             .HasColumnType("datetime2")
             .HasPrecision(7)
@@ -144,7 +165,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Role>()
             .Property(role => role.DateDeleted)
-            .HasColumnName("DateDeleted")
+            .HasColumnName(nameof(Role.DateDeleted))
             .HasColumnOrder(5)
             .HasColumnType("datetime2")
             .HasPrecision(7)
@@ -152,9 +173,10 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Role>()
             .Property(role => role.RowVersion)
-            .HasColumnName("RowVersion")
+            .HasColumnName(nameof(Role.RowVersion))
             .HasColumnOrder(6)
             .IsRowVersion();
+
 
         #endregion
 
