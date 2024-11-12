@@ -27,9 +27,9 @@ public class Adress
     public virtual Warehouse? OwnerWarehouse { get; set; }
     public virtual ShippingOrder? OwnerShipOrder { get; set; }
 
-    public Adress(string adressee, string civicNumber, string street, string city, string state, string country, string postalCode, AddressType addressType)
+    public Adress(string adresse, string civicNumber, string street, string city, string state, string country, string postalCode, AddressType addressType)
     {
-        Adressee = adressee;
+        Adresse = adresse;
         CivicNumber = civicNumber;
         Street = street;
         City = city;
@@ -62,6 +62,6 @@ public class Adress
     
     public override string ToString()
     {
-        return $"{Adressee}, {CivicNumber} {Street}, {City}, {State}, {Country}, {PostalCode}";
+        return $"{Adresse}, {CivicNumber} {Street}, {City}, {State}, {Country}, {PostalCode}";
     }
 }
