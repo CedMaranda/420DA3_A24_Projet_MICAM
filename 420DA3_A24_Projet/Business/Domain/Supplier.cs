@@ -30,7 +30,7 @@ public class Supplier {
         get { return this.supplierName; }
         set {
             if (!ValidateSupplierName(value)) {
-                throw new ArgumentOutOfRangeException("Name", $"Name length must be lower than or equal to {SUPPLIER_NAME_MAX_LENGTH} characters.");
+                throw new ArgumentOutOfRangeException("SupplierName", $"SupplierName length must be lower than or equal to {SUPPLIER_NAME_MAX_LENGTH} characters.");
             }
             this.supplierName = value;
         }
@@ -42,18 +42,18 @@ public class Supplier {
         get { return this.SupplierContactLastName; }
         set {
             if (!ValidateContactLastName(value)) {
-                throw new ArgumentOutOfRangeException("Name", $"Name length must be lower than or equal to {SUPPLIER_CONTACT_LASTNAME_MAX_LENGTH} characters.");
+                throw new ArgumentOutOfRangeException("LastName", $"LastName length must be lower than or equal to {SUPPLIER_CONTACT_LASTNAME_MAX_LENGTH} characters.");
             }
             this.SupplierContactLastName = value;
         }
     }
     public string SupplierContactFirstname {
-        get { return this.SupplierContactFirstName; }
+        get { return this.SupplierContactFirstname; }
         set {
             if (!ValidateContactFirstName(value)) {
-                throw new ArgumentOutOfRangeException("Name", $"Name length must be lower than or equal to {SUPPLIER_CONTACT_LASTNAME_MAX_LENGTH} characters.");
+                throw new ArgumentOutOfRangeException("FirstName", $"Name length must be lower than or equal to {SUPPLIER_CONTACT_FIRSTNAME_MAX_LENGTH} characters.");
             }
-            this.SupplierContactLastName = value;
+            this.SupplierContactFirstname = value;
         }
     }
     public string SupplierContactEmail { get; set; }
@@ -64,6 +64,32 @@ public class Supplier {
     public DateTime? DateModified { get; set; }
 
     public virtual List<Product> Products { get; set; } = new List<Product>();
+    public string SupplierDescription { get; }
+
+    protected Supplier(int id,
+        string SupplierName,
+        string SupplierDescription,
+        string SupplierContactLastName,
+        string SupplierContactFirstName,
+        string SupplierContactEmail,
+        string SupplierContactPhone,
+        DateTime dateCreated,
+        DateTime? dateModified,
+        DateTime? dateDeleted,
+        List<Product> Products)
+        : this(SupplierName, SupplierDescription) {
+
+        this.Id = id;
+        this.DateCreated = dateCreated;
+        this.DateModified = dateModified;
+        this.DateDeleted = dateDeleted;
+        this.Products = Products;
+    }
+
+    public Supplier(string supplierName, string supplierDescription) {
+        this.supplierName = supplierName;
+        this.SupplierDescription = supplierDescription;
+    }
 
     public static bool ValidateId(int id) {
         return id >= 0;
