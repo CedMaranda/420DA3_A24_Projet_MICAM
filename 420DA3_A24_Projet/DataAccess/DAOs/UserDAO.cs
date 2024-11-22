@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 
 /// <summary>
-/// Classe de DAO pour les entités <see cref="User"/>.
+/// TODO @PROF : documenter
 /// </summary>
-class UserDAO {
+internal class UserDAO {
 
-    private WsysDbContext context;
+    private readonly WsysDbContext context;
 
     /// <summary>
-    /// TODO @PROF: Documenter
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="context"></param>
     public UserDAO(WsysDbContext context) {
@@ -20,90 +20,90 @@ class UserDAO {
     }
 
     /// <summary>
-    /// TODO @PROF: Documenter
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="id"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
     public User? GetById(int id, bool includeDeleted = false) {
-        return context.Users
+        return this.context.Users
             .Where(user => user.Id == id && (includeDeleted || user.DateDeleted == null))
             .Include(user => user.Roles)
-            .Include(User => User.EmployeeWarehouse)
-                .ThenInclude(warehouse => warehouse.Address)
+            .Include(user => user.EmployeeWarehouse)
             .SingleOrDefault();
     }
 
     /// <summary>
-    /// TODO @PROF: Documenter
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="username"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
     public User? GetByUsername(string username, bool includeDeleted = false) {
-        return context.Users
+        return this.context.Users
             .Where(user => user.Username == username && (includeDeleted || user.DateDeleted == null))
             .Include(user => user.Roles)
-            .Include(User => User.EmployeeWarehouse)
-                .ThenInclude(warehouse => warehouse.Address)
+            .Include(user => user.EmployeeWarehouse)
             .SingleOrDefault();
     }
 
     /// <summary>
-    /// TODO @PROF: Documenter
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="criterion"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
     public List<User> Search(string criterion, bool includeDeleted = false) {
-        return context.Users
+        return this.context.Users
             .Where(user => (
-                user.Username.Contains(criterion)
-                || user.Id.ToString().Contains(criterion)
+                user.Id.ToString().Contains(criterion)
+                || user.Username.ToLower().Contains(criterion.ToLower())
             ) && (includeDeleted || user.DateDeleted == null))
             .Include(user => user.Roles)
-            .Include(User => User.EmployeeWarehouse)
-                .ThenInclude(warehouse => warehouse.Address)
+            .Include(user => user.EmployeeWarehouse)
             .ToList();
     }
 
     /// <summary>
-    /// TODO @PROF: Documenter
+    /// TODO @PROF : documenter
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="user"></param>
     /// <returns></returns>
-    public User Create(User entity) {
-        _ = context.Users.Add(entity);
-        _ = context.SaveChanges();
-        return entity;
+    public User Create(User user) {
+        _ = this.context.Users.Add(user);
+        _ = this.context.SaveChanges();
+        return user;
     }
 
     /// <summary>
-    /// TODO @PROF: Documenter
+    /// TODO @PROF : documenter
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="user"></param>
     /// <returns></returns>
-    public User Update(User entity) {
-        entity.DateModified = DateTime.Now;
-        _ = context.Users.Update(entity);
-        _ = context.SaveChanges();
-        return entity;
+    public User Update(User user) {
+        user.DateModified = DateTime.Now;
+        _ = this.context.Users.Update(user);
+        _ = this.context.SaveChanges();
+        return user;
     }
 
     /// <summary>
-    /// TODO @PROF: Documenter
+    /// TODO @PROF : documenter
     /// </summary>
-    /// <param name="entity"></param>
-    /// <param name="doSoftDelete"></param>
+    /// <param name="user"></param>
+    /// <param name="softDeletes"></param>
     /// <returns></returns>
-    public User Delete(User entity, bool doSoftDelete = true) {
-        if (doSoftDelete) {
-            entity.DateDeleted = DateTime.Now;
-            _ = context.Users.Update(entity);
+    public User Delete(User user, bool softDeletes = true) {
+        if (softDeletes) {
+            user.DateDeleted = DateTime.Now;
+            _ = this.context.Users.Update(user);
+
         } else {
-            _ = context.Users.Remove(entity);
+            _ = this.context.Users.Remove(user);
         }
-        _ = context.SaveChanges();
-        return entity;
+        _ = this.context.SaveChanges();
+        return user;
     }
+
+
 }
