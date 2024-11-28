@@ -1,28 +1,38 @@
 ﻿using Exemple_Enseignant_Avance.Business.Abstractions;
 using Exemple_Enseignant_Avance.Business.Domain;
-using Exemple_Enseignant_Avance.DataAccess.Daos;
 using Exemple_Enseignant_Avance.Presentation.Views;
 using ExtraAdvancedMultiTier.Business.Abstractions;
 
 namespace Exemple_Enseignant_Avance.Business.Services;
 
 /// <summary>
-/// Classe de services avancée pour les patients.
-/// Permet lagestion des entités de type <see cref="Patient"/>.
+/// Classe de service avancée pour les patients.
+/// Permet la gestion des entités de type <see cref="Patient"/>.
 /// </summary>
 /// <remarks>
-/// Hérite de la classe abstraite <see cref="AbstractEntityService{TEntity, TEntityKey}"/> permettant 
-/// l'enregistrement de ce service dans un conteneur de services (<see cref="IServiceContainer"/>)
-/// et pour bénéficier de méthodes pour les opérations CRUD de base.
+/// Hérite de <see cref="AbstractEntityService{TEntity, TEntityKey}"/> avec les types <see cref="Patient"/> et <see cref="int"/>
+/// pour bénéficier des opérations CRUD de base et de l'enregistrement automatique auprès du conteneur de services parent
+/// (voir <see cref="IServiceContainer"/>).
 /// </remarks>
 public class PatientService : AbstractEntityService<Patient, int>, IEntityService<Patient, int> {
 
+    /// <summary>
+    /// Le DAO pour les entités de type Patient.
+    /// </summary>
     public override IPatientDAO Dao { get; }
+    /// <summary>
+    /// La fenêtre de gestion des patients.
+    /// </summary>
     public override PatientView View { get; }
 
+    /// <summary>
+    /// Constructeur de PatientService.
+    /// </summary>
+    /// <param name="parent">Le conteneur de services parent.</param>
+    /// <exception cref="ArgumentException">Si le conteneur de services reçu ne contient pas de DataProviderService.</exception>
     public PatientService(IServiceContainer parent)
         : base(parent) {
-        this.Dao = parent.GetService<DataProviderService>()?.GetDataProvider()?.GetPatientDao() 
+        this.Dao = parent.GetService<DataProviderService>()?.GetDataProvider()?.GetPatientDao()
             ?? throw new ArgumentException("Le conteneur de services parent reçu n'a pas de DataProviderService enregistré.", nameof(parent));
         this.View = new PatientView(parent);
     }

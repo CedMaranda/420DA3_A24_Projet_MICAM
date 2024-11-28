@@ -1,26 +1,15 @@
 ﻿using Exemple_Enseignant_Avance.Business.Domain;
 using Exemple_Enseignant_Avance.Business.Services;
 using ExtraAdvancedMultiTier.Business.Abstractions;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Project_Utilities.Enums;
-using Project_Utilities.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Exemple_Enseignant_Avance.Presentation.Views;
 public partial class PatientView : Form, IEntityView<Patient, int> {
 
     public IServiceContainer ServiceContainer { get; }
     public PatientService EntityService { get; }
-    public Patient CurrentInstance { get; set; }
+    public Patient CurrentInstance { get; set; } = null!;
     public ViewActionsEnum CurrentAction { get; set; }
 
     IEntityService<Patient, int> IEntityView<Patient, int>.EntityService {
@@ -31,6 +20,7 @@ public partial class PatientView : Form, IEntityView<Patient, int> {
 
     public PatientView(IServiceContainer parent) {
         this.ServiceContainer = parent;
+        this.EntityService = parent.GetService<PatientService>();
         this.InitializeComponent();
         this.ViewOpenEvent += this.OnViewOpen;
         this.CreationActionTriggeredEvent += this.OnCreationActionTriggered;

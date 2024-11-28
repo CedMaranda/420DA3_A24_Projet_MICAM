@@ -1,14 +1,12 @@
-﻿using ExtraAdvancedMultiTier.Business.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static ExtraAdvancedMultiTier.Business.Abstractions.IService;
+﻿using ExtraAdvancedMultiTier.Business.Services;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ExtraAdvancedMultiTier.Business.Abstractions;
 public abstract class AbstractService : IService {
-    protected IServiceContainer? Parent {  get; set; }
+    protected IServiceContainer? Parent { get; set; }
+
+    private bool isStarted = false;
+
 
     public event IStartable.StartableEventHandler? Starting;
     public event IStartable.StartableEventHandler? Started;
@@ -16,7 +14,7 @@ public abstract class AbstractService : IService {
     public event IStoppable.StoppableEventHandler? Stopped;
 
 
-    protected AbstractService(IServiceContainer? parent = null) { 
+    protected AbstractService(IServiceContainer? parent = null) {
         parent?.RegisterService(this);
         this.Parent = parent;
         this.Started += this.OnStarting;
@@ -25,16 +23,40 @@ public abstract class AbstractService : IService {
         this.Stopped += this.OnStopped;
     }
 
-    public virtual void Start() {
+    public bool IsStarted() {
+        return this.isStarted;
+    }
+
+    public bool IsStopped() {
+        return !this.isStarted;
+    }
+
+    protected void TriggerStartingEvent() {
         this.Starting?.Invoke(this);
-        // Do something?
+    }
+
+    protected void TriggerStartedEvent() {
         this.Started?.Invoke(this);
     }
 
-    public virtual void Stop() {
+    protected void TriggerStoppingEvent() {
         this.Stopping?.Invoke(this);
-        // Do something?
+    }
+
+    protected void TriggerStoppedEvent() {
         this.Stopped?.Invoke(this);
+    }
+
+    public virtual void Start() {
+        this.TriggerStartingEvent();
+        this.isStarted = true;
+        this.TriggerStartedEvent();
+    }
+
+    public virtual void Stop() {
+        this.TriggerStoppingEvent();
+        this.isStarted = false;
+        this.TriggerStoppedEvent();
     }
 
     public virtual IServiceContainer? GetParent() {
@@ -46,19 +68,18 @@ public abstract class AbstractService : IService {
     }
 
     private void OnStarting(IStartable startable) {
-        // TODO: @TEACHER Logging after logging system implementation
+        this.Parent?.GetService<LoggingService>()?.Info($"{this.GetType().ShortDisplayName()} starting...");
     }
 
     private void OnStarted(IStartable startable) {
-        // TODO: @TEACHER Logging after logging system implementation
+        this.Parent?.GetService<LoggingService>()?.Success($"{this.GetType().ShortDisplayName()} started!");
     }
 
     private void OnStopping(IStoppable stoppable) {
-        // TODO: @TEACHER Logging after logging system implementation
+        this.Parent?.GetService<LoggingService>()?.Info($"{this.GetType().ShortDisplayName()} stopping...");
     }
 
     private void OnStopped(IStoppable stoppable) {
-        // TODO: @TEACHER Logging after logging system implementation
+        this.Parent?.GetService<LoggingService>()?.Success($"{this.GetType().ShortDisplayName()} stopped!");
     }
-
 }
