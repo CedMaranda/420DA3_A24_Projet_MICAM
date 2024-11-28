@@ -82,7 +82,7 @@ public class User {
     /// Liste des ordres d'expédition complétés par l'utilisateur (pour employés d'entrepôt).
     /// </summary>
     public virtual List<ShippingOrder> FulfilledShippingOrders { get; set; } = new List<ShippingOrder>();
-    public virtual Warehouse? EmployeeWarehouse { get; set; };
+    public virtual Warehouse? EmployeeWarehouse { get; set; } = null!;
 
     #endregion
 
