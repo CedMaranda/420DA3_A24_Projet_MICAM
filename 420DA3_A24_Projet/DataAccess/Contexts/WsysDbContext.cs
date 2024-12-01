@@ -1,16 +1,18 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace _420DA3_A24_Projet.DataAccess.Contexts;
 internal class WsysDbContext : DbContext {
 
-    public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Role> Roles { get; set; } = null!;
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
+        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"].ConnectionString;
         _ = optionsBuilder
-            .UseSqlServer("") // TODO: ajouteer stringue de connectshion
+            .UseSqlServer(connString)
             .UseLazyLoadingProxies();
     }
 
@@ -92,7 +94,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .HasOne(user => user.EmployeeWarehouse)
-            .WithMany(warehouse => warehouse.WarehouseEmployees)
+            .WithMany(warehouse => warehouse.Employees)
             .HasForeignKey(user => user.EmployeeWarehouseId)
             .HasPrincipalKey(warehouse => warehouse.Id)
             .OnDelete(DeleteBehavior.SetNull);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _420DA3_A24_Projet.Business.Domain;
+using System;
 
 
 public class Client
