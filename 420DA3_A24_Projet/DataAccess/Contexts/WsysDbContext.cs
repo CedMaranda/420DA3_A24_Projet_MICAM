@@ -16,6 +16,8 @@ internal class WsysDbContext : DbContext {
     public DbSet<Adresse> Adresses { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Client> Clients { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+    public DbSet<Shipment> Shipments { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
@@ -103,7 +105,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<User>()
             .HasOne(user => user.EmployeeWarehouse)
-            .WithMany(warehouse => warehouse.Employees)
+            .WithMany(warehouse => warehouse.WarehouseEmployees)
             .HasForeignKey(user => user.EmployeeWarehouseId)
             .HasPrincipalKey(warehouse => warehouse.Id)
             .OnDelete(DeleteBehavior.SetNull);
@@ -186,6 +188,140 @@ internal class WsysDbContext : DbContext {
             .Property(role => role.RowVersion)
             .HasColumnName(nameof(Role.RowVersion))
             .HasColumnOrder(6)
+            .IsRowVersion();
+
+
+        #endregion
+
+        #region WAREHOUSE
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .ToTable(nameof(this.Warehouses))
+            .HasKey(warehouse => warehouse.Id);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .Property(warehouse => warehouse.Id)
+            .HasColumnName(nameof(Warehouse.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .Property(warehouse => warehouse.Name)
+            .HasColumnName(nameof(Warehouse.Name))
+            .HasColumnOrder(1)
+            .HasColumnType($"nvarchar({Warehouse.NameMaxLength})")
+            .HasMaxLength(Warehouse.NameMaxLength)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .Property(warehouse => warehouse.AddressId)
+            .HasColumnName(nameof(Warehouse.AddressId))
+            .HasColumnOrder(2)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .Property(warehouse => warehouse.DateCreated)
+            .HasColumnName(nameof(Warehouse.DateCreated))
+            .HasColumnOrder(3)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .ValueGeneratedOnAdd()
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .Property(warehouse => warehouse.DateModified)
+            .HasColumnName(nameof(Warehouse.DateModified))
+            .HasColumnOrder(4)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .Property(warehouse => warehouse.DateDeleted)
+            .HasColumnName(nameof(Warehouse.DateDeleted))
+            .HasColumnOrder(5)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .Property(warehouse => warehouse.RowVersion)
+            .HasColumnName(nameof(Warehouse.RowVersion))
+            .HasColumnOrder(6)
+            .IsRowVersion();
+
+        #endregion
+
+
+        #region SHIPMENT
+
+        _ = modelBuilder.Entity<Shipment>()
+            .ToTable(nameof(this.Warehouses))
+            .HasKey(warehouse => warehouse.Id);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.Id)
+            .HasColumnName(nameof(Shipment.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.ShippingProvider)
+            .HasColumnName(nameof(Shipment.ShippingProvider))
+            .HasColumnOrder(1)
+            .HasColumnType("nvarchar(32)")
+            .HasConversion<string>()
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.TrackingNumber)
+            .HasColumnName(nameof(Shipment.TrackingNumber))
+            .HasColumnOrder(2)
+            .HasColumnType($"nvarchar({Shipment.TrackingNumberMaxLength})")
+            .HasMaxLength(Shipment.TrackingNumberMaxLength)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.ShippingOrderId)
+            .HasColumnName(nameof(Shipment.ShippingOrderId))
+            .HasColumnOrder(3)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.DateCreated)
+            .HasColumnName(nameof(Shipment.DateCreated))
+            .HasColumnOrder(4)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .ValueGeneratedOnAdd()
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.DateModified)
+            .HasColumnName(nameof(Shipment.DateModified))
+            .HasColumnOrder(5)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.DateDeleted)
+            .HasColumnName(nameof(Shipment.DateDeleted))
+            .HasColumnOrder(6)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Shipment>()
+            .Property(shipment => shipment.RowVersion)
+            .HasColumnName(nameof(Shipment.RowVersion))
+            .HasColumnOrder(7)
             .IsRowVersion();
 
 
@@ -715,10 +851,22 @@ internal class WsysDbContext : DbContext {
             .WithMany(role => role.Users)
             .UsingEntity("UserRoles",
                 rightRelation => {
-                    return rightRelation.HasOne(typeof(Role)).WithMany().HasForeignKey("RoleId").HasPrincipalKey(nameof(Role.Id));
+                    return rightRelation
+                    .HasOne(typeof(Role))
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .HasPrincipalKey(nameof(Role.Id))
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
                 },
                 leftRelation => {
-                    return leftRelation.HasOne(typeof(User)).WithMany().HasForeignKey("UserId").HasPrincipalKey(nameof(User.Id));
+                    return leftRelation
+                    .HasOne(typeof(User))
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .HasPrincipalKey(nameof(User.Id))
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
                 },
                 shadowEntityConfig => {
                     _ = shadowEntityConfig.HasKey("UserId", "RoleId");
@@ -734,6 +882,42 @@ internal class WsysDbContext : DbContext {
             .HasMany(role => role.Users)
             .WithMany(user => user.Roles);
         */
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .HasOne(warehouse => warehouse.Address)
+            .WithOne(addr => addr.OwnerWarehouse)
+            .HasForeignKey<Warehouse>(warehouse => warehouse.AddressId)
+            .HasPrincipalKey<Adresse>(addr => addr.Id)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .HasMany(warehouse => warehouse.WarehouseEmployees)
+            .WithOne(user => user.EmployeeWarehouse)
+            .HasForeignKey(user => user.EmployeeWarehouseId)
+            .HasPrincipalKey(warehouse => warehouse.Id)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .HasMany(warehouse => warehouse.WarehouseClients)
+            .WithOne(client => client.Warehouse)
+            .HasForeignKey(client => client.WarehouseId)
+            .HasPrincipalKey(warehouse => warehouse.Id);
+
+        _ = modelBuilder.Entity<Warehouse>()
+            .HasMany(warehouse => warehouse.RestockOrders)
+            .WithOne(order => order.DestinationWarehouse)
+            .HasForeignKey(order => order.DestinationWarehouseId)
+            .HasPrincipalKey(warehouse => warehouse.Id);
+
+
+
+        _ = modelBuilder.Entity<Shipment>()
+            .HasOne(shipment => shipment.ShippingOrder)
+            .WithOne(order => order.Shipment)
+            .HasForeignKey<Shipment>(shipment => shipment.ShippingOrderId)
+            .HasPrincipalKey<ShippingOrder>(order => order.Shipment)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
         #endregion
 
