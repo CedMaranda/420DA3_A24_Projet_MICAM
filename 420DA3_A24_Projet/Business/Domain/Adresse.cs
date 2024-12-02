@@ -16,7 +16,7 @@ public class Adresse {
 
     // TODO @CÉDRICK: Utiliser vos méthodes de validation
     // pour valider les valeurs lors du 'set' des propriétés textuelles
-    public string Adressee { get; set; }
+    public string Addressee { get; set; }
     public string CivicNumber { get; set; }
     public string Street { get; set; }
     public string City { get; set; }
@@ -31,8 +31,8 @@ public class Adresse {
     public virtual Warehouse? OwnerWarehouse { get; set; }
     public virtual ShippingOrder? OwnerShipOrder { get; set; }
 
-    public Adresse(string adressee, string civicNumber, string street, string city, string state, string country, string postalCode, AddressTypesEnum addressType) {
-        Adressee = adressee;
+    public Adresse(string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, AddressTypesEnum addressType) {
+        Addressee = addressee;
         CivicNumber = civicNumber;
         Street = street;
         City = city;
@@ -65,6 +65,6 @@ public class Adresse {
 
 
     public override string ToString() {
-        return $"#{Id} [{Enum.GetName<AddressTypesEnum>(AddressType)}] {Adressee}, {CivicNumber} {Street}, {City}, {State}, {Country}, {PostalCode}";
+        return $"#{Id} [{Enum.GetName<AddressTypesEnum>(AddressType)}] {Addressee}, {CivicNumber} {Street}, {City}, {State}, {Country}, {PostalCode}";
     }
 }
