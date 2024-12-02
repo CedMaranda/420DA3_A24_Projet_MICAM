@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _420DA3_A24_Projet.Business.Services;
+using Project_Utilities.Enums;
 
 namespace _420DA3_A24_Projet.Business.Domain {
     /// <summary>
@@ -14,6 +15,9 @@ namespace _420DA3_A24_Projet.Business.Domain {
         /// Identifiant unique de l'expédition.
         /// </summary>
         public int Id { get; set; }
+
+        public ShipmentStatusEnum Status { get; set; }
+        public ShippingProvidersEnum ShippingProvider { get; set; }
 
         /// <summary>
         /// Numéro de suivi de l'expédition.
@@ -53,16 +57,18 @@ namespace _420DA3_A24_Projet.Business.Domain {
         /// <summary>
         /// Constructeur pour créer une expédition.
         /// </summary>
-        /// <param name="trackingNumber">Le numéro de suivi.</param>
+        /// <param name="shippingProvider">Le service de livraison utilisé.</param>
         /// <param name="shippingOrderId">L'identifiant de l'ordre d'expédition associé.</param>
-        public Shipment(string trackingNumber, int shippingOrderId) {
-            if (!ValidateTrackingNumber(trackingNumber))
-                throw new ArgumentOutOfRangeException("TrackingNumber", $"Tracking number must not exceed {TrackingNumberMaxLength} characters.");
-
-            TrackingNumber = trackingNumber;
+        public Shipment(ShippingProvidersEnum shippingProvider, int shippingOrderId) {
+            ShippingProvider = shippingProvider;
             ShippingOrderId = shippingOrderId;
-            DateCreated = DateTime.Now;
+            TrackingNumber = TrackingNumberFactory.GetInstance().GetNewTrackingNumber(shippingProvider);
+            Status = ShipmentStatusEnum.New;
         }
+
+        // TODO @AYMAN: constructeur pour EF Core avec des paramètres pour toutes les propriétés de données
+
+
 
         /// <summary>
         /// Méthode de validation du numéro de suivi.
@@ -78,7 +84,7 @@ namespace _420DA3_A24_Projet.Business.Domain {
         /// </summary>
         /// <returns>Une chaîne de caractères décrivant l'expédition.</returns>
         public override string ToString() {
-            return $"#{Id} - Tracking: {TrackingNumber}";
+            return $"#{Id} ({Enum.GetName(Status)}) - Shipping Order ID: {ShippingOrder.Id}; Tracking Number: {TrackingNumber} ({Enum.GetName(ShippingProvider)})";
         }
     }
 }
