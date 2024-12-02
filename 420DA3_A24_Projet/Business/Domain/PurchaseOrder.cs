@@ -88,6 +88,6 @@ public class PurchaseOrder {
     }
 
     public override string ToString() {
-        return $"#{this.Id} ({this.Status}) - {this.Quantity} x {this.OrderedProduct.nomproduit} - Destination: {this.DestinationWarehouse.nomEntrepot}";
+        return $"#{this.Id} ({this.Status}) - {this.Quantity} x {this.OrderedProduct.ProductName} - Destination: {this.DestinationWarehouse.Name}";
     }
 }

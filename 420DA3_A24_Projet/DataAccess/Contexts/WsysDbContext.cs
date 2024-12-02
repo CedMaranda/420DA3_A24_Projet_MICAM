@@ -1,5 +1,8 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
+using _420DA3_A24_Projet.Business.Domain.Pivots;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Project_Utilities.Enums;
 using System.Configuration;
 
 namespace _420DA3_A24_Projet.DataAccess.Contexts;
@@ -7,6 +10,12 @@ internal class WsysDbContext : DbContext {
 
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<ShippingOrder> ShippingOrders { get; set; }
+    public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+    public DbSet<ShippingOrderProduct> ShippingOrderProducts { get; set; }
+    public DbSet<Adresse> Adresses { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Client> Clients { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
@@ -181,6 +190,242 @@ internal class WsysDbContext : DbContext {
 
 
         #endregion
+
+        #region SHIPPING_ORDER
+
+        EnumToStringConverter<ShippingOrderStatusEnum> ShippingOrderStatusConverter = new EnumToStringConverter<ShippingOrderStatusEnum>();
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .ToTable(nameof(this.ShippingOrders))
+            .HasKey(so => so.Id);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.Id)
+            .HasColumnName(nameof(ShippingOrder.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.Status)
+            .HasColumnName(nameof(ShippingOrder.Status))
+            .HasColumnOrder(1)
+            .HasColumnType("nvarchar(24)")
+            .HasConversion(ShippingOrderStatusConverter)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.SourceClientId)
+            .HasColumnName(nameof(ShippingOrder.SourceClientId))
+            .HasColumnOrder(2)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.CreatorEmployeeId)
+            .HasColumnName(nameof(ShippingOrder.CreatorEmployeeId))
+            .HasColumnOrder(3)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.DestinationAddressId)
+            .HasColumnName(nameof(ShippingOrder.DestinationAddressId))
+            .HasColumnOrder(4)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.FulfillerEmployeeId)
+            .HasColumnName(nameof(ShippingOrder.FulfillerEmployeeId))
+            .HasColumnOrder(5)
+            .HasColumnType("int")
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.ShippingDate)
+            .HasColumnName(nameof(ShippingOrder.ShippingDate))
+            .HasColumnOrder(6)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.DateCreated)
+            .HasColumnName(nameof(ShippingOrder.DateCreated))
+            .HasColumnOrder(7)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.DateModified)
+            .HasColumnName(nameof(ShippingOrder.DateModified))
+            .HasColumnOrder(8)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.DateDeleted)
+            .HasColumnName(nameof(ShippingOrder.DateDeleted))
+            .HasColumnOrder(9)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<ShippingOrder>()
+            .Property(so => so.RowVersion)
+            .HasColumnName(nameof(ShippingOrder.RowVersion))
+            .HasColumnOrder(10)
+            .IsRowVersion();
+
+        // TODO: @PROF Faire config des relations de ShippingOrder
+
+        #endregion
+
+        #region PURCHASE_ORDER
+
+        EnumToStringConverter<PurchaseOrderStatusEnum> PurchaseOrderStatusConverter = new EnumToStringConverter<PurchaseOrderStatusEnum>();
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .ToTable(nameof(this.PurchaseOrders))
+            .HasKey(po => po.Id);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.Id)
+            .HasColumnName(nameof(PurchaseOrder.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.Status)
+            .HasColumnName(nameof(PurchaseOrder.Status))
+            .HasColumnOrder(1)
+            .HasColumnType("nvarchar(24)")
+            .HasConversion(PurchaseOrderStatusConverter)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.Quantity)
+            .HasColumnName(nameof(PurchaseOrder.Quantity))
+            .HasColumnOrder(2)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.OrderedProductId)
+            .HasColumnName(nameof(PurchaseOrder.OrderedProductId))
+            .HasColumnOrder(3)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.DestinationWarehouseId)
+            .HasColumnName(nameof(PurchaseOrder.DestinationWarehouseId))
+            .HasColumnOrder(4)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.CompletionDate)
+            .HasColumnName(nameof(PurchaseOrder.CompletionDate))
+            .HasColumnOrder(5)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.DateCreated)
+            .HasColumnName(nameof(PurchaseOrder.DateCreated))
+            .HasColumnOrder(6)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.DateModified)
+            .HasColumnName(nameof(PurchaseOrder.DateModified))
+            .HasColumnOrder(7)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.DateDeleted)
+            .HasColumnName(nameof(PurchaseOrder.DateDeleted))
+            .HasColumnOrder(8)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<PurchaseOrder>()
+            .Property(po => po.RowVersion)
+            .HasColumnName(nameof(PurchaseOrder.RowVersion))
+            .HasColumnOrder(9)
+            .IsRowVersion();
+
+        // TODO: @PROF Faire config des relations de PurchaseOrder
+
+        #endregion
+
+        #region PIVOT - SHIPPING_ORDER_PRODUCTS (PIVOT)
+
+        _ = modelBuilder.Entity<ShippingOrderProduct>()
+            .ToTable(nameof(this.ShippingOrderProducts))
+            .HasKey(sop => new { sop.ShippingOderId, sop.ProductId });
+
+        _ = modelBuilder.Entity<ShippingOrderProduct>()
+            .Property(sop => sop.ShippingOderId)
+            .HasColumnName(nameof(ShippingOrderProduct.ShippingOderId))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrderProduct>()
+            .Property(sop => sop.ProductId)
+            .HasColumnName(nameof(ShippingOrderProduct.ProductId))
+            .HasColumnOrder(1)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrderProduct>()
+            .Property(sop => sop.Quantity)
+            .HasColumnName(nameof(ShippingOrderProduct.Quantity))
+            .HasColumnOrder(2)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<ShippingOrderProduct>()
+            .Property(sop => sop.RowVersion)
+            .HasColumnName(nameof(ShippingOrderProduct.RowVersion))
+            .HasColumnOrder(3)
+            .IsRowVersion();
+
+
+        // Relations un-à-plusieurs pour ShippingOrder à ShippingOrderProduct
+        // et pour Product à ShippingOrderProduct
+
+        _ = modelBuilder.Entity<ShippingOrderProduct>()
+            .HasOne(sop => sop.ShippingOrder)
+            .WithMany(so => so.ShippingOrderProducts)
+            .HasForeignKey(sop => sop.ShippingOderId)
+            .HasPrincipalKey(so => so.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        _ = modelBuilder.Entity<ShippingOrderProduct>()
+            .HasOne(sop => sop.Product)
+            .WithMany(product => product.ShippingOrderProducts)
+            .HasForeignKey(sop => sop.ProductId)
+            .HasPrincipalKey(p => p.Id)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        #endregion
+
 
         // TODO: @WHOLE_TEAM configurez vos entités ici
 

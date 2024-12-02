@@ -127,11 +127,11 @@ internal class ShippingOrderDAO {
             .Where(so =>
                     so.Id.ToString().Contains(criterion)
                     || so.Status.ToString().ToLower().Contains(criterion.ToLower())
-                    || so.SourceClient.Name.ToLower().Contains(criterion.ToLower())
-                    || so.DestinationAddress.Destinataire.ToLower().Contains(criterion.ToLower())
+                    || so.SourceClient.ClientName.ToLower().Contains(criterion.ToLower())
+                    || so.DestinationAddress.Addressee.ToLower().Contains(criterion.ToLower())
                     || so.ShippingOrderProducts.Any(sop => sop.Product.Id.ToString().Contains(criterion))
-                    || so.ShippingOrderProducts.Any(sop => sop.Product.nom_produit.ToLower().Contains(criterion.ToLower()))
-                    || ((so.Shipment == null || so.Shipment.CodeSuivi.ToLower().Contains(criterion.ToLower()))
+                    || so.ShippingOrderProducts.Any(sop => sop.Product.ProductName.ToLower().Contains(criterion.ToLower()))
+                    || ((so.Shipment == null || so.Shipment.TrackingNumber.ToLower().Contains(criterion.ToLower()))
                 && (includeDeleted || so.DateDeleted == null))
             )
             .ToList();

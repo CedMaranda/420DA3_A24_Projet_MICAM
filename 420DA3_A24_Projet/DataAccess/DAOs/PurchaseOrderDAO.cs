@@ -36,10 +36,11 @@ internal class PurchaseOrderDAO {
     /// </summary>
     /// <param name="loggedIEmployeeWarehouse"></param>
     /// <returns></returns>
-    public List<PurchaseOrder> GetUncompletePOsForWarehouse(Warehouse loggedIEmployeeWarehouse) {
+    public List<PurchaseOrder> GetIncompletePOsForWarehouse(Warehouse loggedIEmployeeWarehouse, bool includeDeleted = false) {
         return this.context.PurchaseOrders
             .Where(po => po.DestinationWarehouseId == loggedIEmployeeWarehouse.Id
                 && po.Status != PurchaseOrderStatusEnum.Completed
+                && (includeDeleted || po.DateDeleted == null)
             )
             .Include(po => po.OrderedProduct)
                 .ThenInclude(product => product.OwnerClient)
@@ -75,11 +76,11 @@ internal class PurchaseOrderDAO {
             .Include(po => po.DestinationWarehouse)
             .Where(po => (
                     po.Id.ToString().Contains(criterion)
-                    || po.OrderedProduct.Name.ToLower().Contains(criterion.ToLower())
-                    || po.OrderedProduct.UpcCode.ToLower().Contains(criterion.ToLower())
-                    || po.OrderedProduct.SupplierCode.ToLower().Contains(criterion.ToLower())
+                    || po.OrderedProduct.ProductName.ToLower().Contains(criterion.ToLower())
+                    || po.OrderedProduct.UPCCode.ToLower().Contains(criterion.ToLower())
+                    || po.OrderedProduct.ProductSupplierCode.ToLower().Contains(criterion.ToLower())
                     || po.OrderedProduct.OwnerClient.ClientName.ToLower().Contains(criterion.ToLower())
-                    || po.DestinationWarehouse.WarehouseName.ToLower().Contains(criterion.ToLower())
+                    || po.DestinationWarehouse.Name.ToLower().Contains(criterion.ToLower())
                 ) && (includeDeleted || po.DateDeleted == null))
             .ToList();
     }

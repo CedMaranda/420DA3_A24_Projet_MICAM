@@ -26,7 +26,7 @@ public class ShippingOrderProduct {
     /// L'ordre d'expédition associé.
     /// </summary>
     public virtual ShippingOrder ShippingOrder { get; set; } = null!;
-    public virtual Produit Product { get; set; } = null!;
+    public virtual Product Product { get; set; } = null!;
 
     /// <summary>
     /// Constructeur orienté création manuelle
@@ -69,7 +69,7 @@ public class ShippingOrderProduct {
     /// </summary>
     /// <returns>Un string décrivant l'association produit-ordre d'expédition.</returns>
     public override string ToString() {
-        return $"{this.Product.nomproduit} (Qty: {this.Quantity})";
+        return $"{this.Product.ProductName} (Qty: {this.Quantity})";
     }
 
 }

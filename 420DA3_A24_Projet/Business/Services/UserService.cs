@@ -61,14 +61,15 @@ internal class UserService {
         return userToView;
     }
 
+
     /// <summary>
     /// TODO @PROF : documenter
     /// </summary>
     /// <param name="userToDelete"></param>
     /// <returns></returns>
-    public User OpenUserManagementWindowForDeletion(User userToDelete) {
-        _ = this.userWindow.OpenForDeletion(userToDelete);
-        return userToDelete;
+    public bool OpenUserManagementWindowForDeletion(User userToDelete) {
+        DialogResult result = this.userWindow.OpenForDeletion(userToDelete);
+        return result == DialogResult.OK;
     }
 
 

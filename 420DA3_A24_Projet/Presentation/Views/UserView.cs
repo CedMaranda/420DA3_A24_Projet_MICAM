@@ -1,4 +1,5 @@
-﻿using _420DA3_A24_Projet.Business.Domain;
+﻿using _420DA3_A24_Projet.Business;
+using _420DA3_A24_Projet.Business.Domain;
 using Project_Utilities.Enums;
 
 namespace _420DA3_A24_Projet.Presentation.Views;
@@ -118,7 +119,7 @@ internal partial class UserView : Form {
         }
         this.whEmpWarehouseValue.Items.Clear();
         // TODO @PROF: fix this quand le service entrepot sera créé
-        foreach (Entrepot entrepot in this.app.EntrepotService.GetAllEntrepots()) {
+        foreach (Warehouse entrepot in this.app.WarehouseService.GetAllEntrepots()) {
             _ = this.whEmpWarehouseValue.Items.Add(entrepot);
         }
     }
@@ -153,7 +154,7 @@ internal partial class UserView : Form {
     private User GetDataFromControls(User user) {
         user.Username = this.usernameValue.Text;
         // TODO: get clear password, encrypt it, and set as user's passwordHash
-        user.EmployeeWarehouse = this.whEmpWarehouseValue.SelectedItem as Entrepot;
+        user.EmployeeWarehouse = this.whEmpWarehouseValue.SelectedItem as Warehouse;
         user.Roles = new List<Role>();
         foreach (Role role in this.userRolesValues.SelectedItems) {
             user.Roles.Add(role);
