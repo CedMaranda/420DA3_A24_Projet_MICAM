@@ -1,5 +1,7 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
 using Project_Utilities.Enums;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 public class Adresse {
 
@@ -14,19 +16,83 @@ public class Adresse {
     public int Id { get; set; }
     public AddressTypesEnum AddressType { get; set; }
 
-    // TODO @CÉDRICK: Utiliser vos méthodes de validation
-    // pour valider les valeurs lors du 'set' des propriétés textuelles
-    public string Addressee { get; set; }
-    public string CivicNumber { get; set; }
-    public string Street { get; set; }
-    public string City { get; set; }
-    public string State { get; set; }
-    public string Country { get; set; }
-    public string PostalCode { get; set; }
+    private string _addressee;
+    private string _civicNumber;
+    private string _street;
+    private string _city;
+    private string _state;
+    private string _country;
+    private string _postalCode;
+
+    public string Addressee {
+        get => _addressee;
+        set {
+            if (string.IsNullOrEmpty(value) || value.Length > AdresseeMaxLength)
+                throw new ArgumentException($"Invalid Addressee. Maximum length is {AdresseeMaxLength}.");
+            _addressee = value;
+        }
+    }
+
+    public string CivicNumber {
+        get => _civicNumber;
+        set {
+            if (!ValidateCivicNumber(value))
+                throw new ArgumentException($"Invalid Civic Number. Maximum length is {CivicNumberMaxLength}.");
+            _civicNumber = value;
+        }
+    }
+
+    public string Street {
+        get => _street;
+        set {
+            if (!ValidateStreet(value))
+                throw new ArgumentException($"Invalid Street. Maximum length is {StreetMaxLength}.");
+            _street = value;
+        }
+    }
+
+    public string City {
+        get => _city;
+        set {
+            if (!ValidateCity(value))
+                throw new ArgumentException($"Invalid City. Maximum length is {CityMaxLength}.");
+            _city = value;
+        }
+    }
+
+    public string State {
+        get => _state;
+        set {
+            if (!ValidateState(value))
+                throw new ArgumentException($"Invalid State. Maximum length is {StateMaxLength}.");
+            _state = value;
+        }
+    }
+
+    public string Country {
+        get => _country;
+        set {
+            if (!ValidateCountry(value))
+                throw new ArgumentException($"Invalid Country. Maximum length is {CountryMaxLength}.");
+            _country = value;
+        }
+    }
+
+    public string PostalCode {
+        get => _postalCode;
+        set {
+            if (!ValidatePostalCode(value))
+                throw new ArgumentException($"Invalid Postal Code. Maximum length is {PostalCodeMaxLength}.");
+            _postalCode = value;
+        }
+    }
+
     public DateTime DateCreated { get; set; }
     public DateTime? DateDeleted { get; set; }
     public DateTime? DateModified { get; set; }
-    // TODO @CÉDRICK: Ajouter une propriété anti-concurrence 'RowVersion' de type byte[]
+
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
 
     public virtual Warehouse? OwnerWarehouse { get; set; }
     public virtual ShippingOrder? OwnerShipOrder { get; set; }
@@ -40,10 +106,25 @@ public class Adresse {
         Country = country;
         PostalCode = postalCode;
         AddressType = addressType;
+        DateCreated = DateTime.Now;
     }
 
-    // TODO @CÉDRICK: Ajouter un autre constructeur
-    // pour EF Core (avec des paramètres pour TOUTES les propriétés de données
+    public Adresse(int id, string addressee, string civicNumber, string street, string city, string state, string country, string postalCode,
+                   AddressTypesEnum addressType, DateTime dateCreated, DateTime? dateDeleted, DateTime? dateModified, byte[] rowVersion) {
+        Id = id;
+        Addressee = addressee;
+        CivicNumber = civicNumber;
+        Street = street;
+        City = city;
+        State = state;
+        Country = country;
+        PostalCode = postalCode;
+        AddressType = addressType;
+        DateCreated = dateCreated;
+        DateDeleted = dateDeleted;
+        DateModified = dateModified;
+        RowVersion = rowVersion;
+    }
 
     public bool ValidateCivicNumber(string civicNumber) =>
         !string.IsNullOrEmpty(civicNumber) && civicNumber.Length <= CivicNumberMaxLength;
@@ -63,8 +144,9 @@ public class Adresse {
     public bool ValidatePostalCode(string postalCode) =>
         !string.IsNullOrEmpty(postalCode) && postalCode.Length <= PostalCodeMaxLength;
 
+  public override string ToString() {
 
-    public override string ToString() {
         return $"#{Id} [{Enum.GetName<AddressTypesEnum>(AddressType)}] {Addressee}, {CivicNumber} {Street}, {City}, {State}, {Country}, {PostalCode}";
     }
 }
+

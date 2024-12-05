@@ -4,7 +4,7 @@
 /// Summary description for Class1
 /// </summary>
 public class AdresseService {
-
+         
     private readonly AdresseDAO adresseDAO;
 
     public AdresseService(AdresseDAO adresseDAO) {
@@ -23,7 +23,7 @@ public class AdresseService {
 
     // Rechercher des adresses
     public List<Adresse> SearchAdresses(string filter) {
-        return adresseDAO.Search(filter);
+        return adresseDAO.Search(filter); 
     }
 
     // Créer une nouvelle adresse
