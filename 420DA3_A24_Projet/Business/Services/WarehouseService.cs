@@ -51,7 +51,15 @@ internal class WarehouseService {
         return this.dao.Search(criterion, includeDeleted);
     }
 
-    public Warehouse? Create(Warehouse warehouse) {
+    public Warehouse GenerateAutomaticWarehouse() {
+        Adresse newAddress = new Adresse("Wsys Entrepot", "555", "rue des exceptions", "Montreal", "Quebec", "Canada", "H0H 0H0", Project_Utilities.Enums.AddressTypesEnum.Warehouse);
+        this.parentApp.AdresseService.CreateAdresse(newAddress);
+        Random rnd = new Random();
+        Warehouse newWarehouse = new Warehouse("Wsys Entrepot #" + rnd.Next(1, 100), newAddress.Id);
+        return this.Create(newWarehouse);
+    }
+
+    public Warehouse Create(Warehouse warehouse) {
         return this.dao.Create(warehouse);
     }
 

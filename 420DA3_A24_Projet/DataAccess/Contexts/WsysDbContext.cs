@@ -674,16 +674,16 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Adresse>()
             .HasOne(ad => ad.OwnerWarehouse)
-            .WithMany(warehouse => warehouse.Addresses)
-            .HasForeignKey(ad => ad.OwnerWarehouse.Id)
-            .HasPrincipalKey(warehouse => warehouse.Id)
+            .WithOne(warehouse => warehouse.Address)
+            .HasForeignKey<Warehouse>(wh => wh.AddressId)
+            .HasPrincipalKey<Adresse>(add => add.Id)
             .OnDelete(DeleteBehavior.SetNull);
 
         _ = modelBuilder.Entity<Adresse>()
             .HasOne(ad => ad.OwnerShipOrder)
-            .WithMany(order => order.DestinationAddresses)
-            .HasForeignKey(ad => ad.OwnerShipOrder.Id)
-            .HasPrincipalKey(order => order.Id)
+            .WithOne(order => order.DestinationAddress)
+            .HasForeignKey<ShippingOrder>(so => so.DestinationAddressId)
+            .HasPrincipalKey<Adresse>(ad => ad.Id)
             .OnDelete(DeleteBehavior.Restrict);
 
 
@@ -775,7 +775,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Client>()
             .HasOne(client => client.AssignedWarehouse)
-            .WithMany(warehouse => warehouse.Clients)
+            .WithMany(warehouse => warehouse.WarehouseClients)
             .HasForeignKey(client => client.WarehouseId)
             .HasPrincipalKey(warehouse => warehouse.Id)
             .OnDelete(DeleteBehavior.Restrict);
@@ -783,7 +783,7 @@ internal class WsysDbContext : DbContext {
         _ = modelBuilder.Entity<Client>()
             .HasMany(client => client.Products)
             .WithOne(product => product.OwnerClient)
-            .HasForeignKey(product => product.ClientId)
+            .HasForeignKey(product => product.OwnerClientId)
             .HasPrincipalKey(client => client.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -794,7 +794,7 @@ internal class WsysDbContext : DbContext {
             .HasPrincipalKey(client => client.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
-      
+
 
 
 
@@ -808,7 +808,22 @@ internal class WsysDbContext : DbContext {
 
         #region RELATIONS ET DONNÉES DE TEST
 
+        // Adresses ici
+        Adresse adrWh1 = new Adresse("Wsys Entrepot #1", "1234", "av. des patates", "Montreal", "Quebec", "Canada", "H0H0H0", AddressTypesEnum.Warehouse);
+        adrWh1.Id = 1;
+        Adresse adrWh2 = new Adresse("Wsys Entrepot #2", "1234", "av. des patates", "Montreal", "Quebec", "Canada", "H0H0H0", AddressTypesEnum.Warehouse);
+        adrWh1.Id = 2;
+        _ = modelBuilder.Entity<Adresse>()
+            .HasData(adrWh1, adrWh2);
+
         // Warehouse ici
+        // TODO: @PROF assigner une adresse à wh1 et wh2 quand celles-ci seront ajoutées.
+        Warehouse wh1 = new Warehouse("Wsys Entrepot #1", adrWh1.Id);
+        wh1.Id = 1;
+        Warehouse wh2 = new Warehouse("Wsys Entrepot #1", adrWh2.Id);
+        wh2.Id = 2;
+        _ = modelBuilder.Entity<Warehouse>()
+            .HasData(wh1, wh2);
 
 
         // NOTE: le mot de passe des user est "testpasswd".
@@ -818,9 +833,9 @@ internal class WsysDbContext : DbContext {
         User user2 = new User("UserOffice", "43C39F5E14573CCB5E176B9C701673C3F7031F85C711E9A1B00AB6E4802A7310:F4C024A35DB3B92F9D1AFD928E9D6D26:100000:SHA256") {
             Id = 2
         };
-        // TODO: @PROF assigner une warehouse à user3 quand une warehouse sera ajoutée.
         User user3 = new User("UserWarehouse", "43C39F5E14573CCB5E176B9C701673C3F7031F85C711E9A1B00AB6E4802A7310:F4C024A35DB3B92F9D1AFD928E9D6D26:100000:SHA256") {
-            Id = 3
+            Id = 3,
+            EmployeeWarehouseId = wh1.Id
         };
         _ = modelBuilder.Entity<User>().HasData(user1, user2, user3);
 
@@ -899,7 +914,7 @@ internal class WsysDbContext : DbContext {
 
         _ = modelBuilder.Entity<Warehouse>()
             .HasMany(warehouse => warehouse.WarehouseClients)
-            .WithOne(client => client.Warehouse)
+            .WithOne(client => client.AssignedWarehouse)
             .HasForeignKey(client => client.WarehouseId)
             .HasPrincipalKey(warehouse => warehouse.Id);
 

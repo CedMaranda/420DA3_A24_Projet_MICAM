@@ -42,7 +42,7 @@ internal class WarehouseDAO {
             .ToList();
     }
 
-    public Warehouse? Create(Warehouse warehouse) {
+    public Warehouse Create(Warehouse warehouse) {
         _ = this.context.Warehouses.Add(warehouse);
         _ = this.context.SaveChanges();
         return warehouse;
