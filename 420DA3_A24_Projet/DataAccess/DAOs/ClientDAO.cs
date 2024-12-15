@@ -1,5 +1,9 @@
 ﻿using _420DA3_A24_Projet.DataAccess.Contexts;
-
+/// <summary>
+/// Classe d'accès aux données pour les clients. Fournit des méthodes pour récupérer, 
+/// rechercher, créer, mettre à jour et supprimer des enregistrements de clients 
+/// dans la base de données. Prend en charge les suppressions logiques et physiques.
+/// </summary>
 
 internal class ClientDAO {
     private WsysDbContext context;

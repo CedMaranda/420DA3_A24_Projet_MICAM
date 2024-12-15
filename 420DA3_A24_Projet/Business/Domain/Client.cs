@@ -1,7 +1,12 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
 using System;
 
-
+///<summary>
+/// Classe représentant un client dans le système. Contient des informations telles que 
+/// le nom du client, les coordonnées de contact (prénom, nom, email, téléphone), 
+/// l'entrepôt assigné, ainsi que les relations avec les produits et les commandes 
+/// d'expédition. Fournit des méthodes pour valider les données des clients.
+///<summary>
 public class Client
 {
    
