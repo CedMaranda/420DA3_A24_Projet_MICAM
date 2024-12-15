@@ -318,7 +318,7 @@ internal partial class AdminMainMenu : Form {
     private void ButtonViewSO_Click(object sender, EventArgs e) {
         ShippingOrder? selectedSO = this.soSearchResults.SelectedItem as ShippingOrder;
         if (selectedSO != null) {
-            _ = this.parentApp.ShippingOrderService.OpenManagementWindowForDetailsView(selectedSO);
+            _ = this.parentApp.ShippingOrderService.OpenManagementWindowForVisualization(selectedSO);
         }
     }
 
@@ -347,5 +347,71 @@ internal partial class AdminMainMenu : Form {
 
     #endregion
 
+
+    #region GESTION DES ORDRES DE RESTOCKAGE
+
+    /// <summary>
+    /// Empties the <see cref="PurchaseOrder"/> search results <see cref="ListBox"/> then fills it with the given
+    /// <paramref name="searchResults"/>.
+    /// </summary>
+    /// <param name="searchResults"></param>
+    private void ReloadPOSearchResults(List<PurchaseOrder> searchResults) {
+        try {
+            this.poSearchResults.SelectedItem = null;
+            this.poSearchResults.SelectedIndex = -1;
+            this.poSearchResults.Items.Clear();
+            foreach (PurchaseOrder role in searchResults) {
+                _ = this.poSearchResults.Items.Add(role);
+            }
+            this.poSearchResults.Refresh();
+
+        } catch (Exception ex) {
+            this.parentApp.HandleException(ex);
+        }
+    }
+
+    private void ButtonCreatePO_Click(object sender, EventArgs e) {
+        try {
+            PurchaseOrder? createdPO = this.parentApp.PurchaseOrderService.OpenManagementWindowForCreation();
+            if (createdPO != null) {
+                _ = this.poSearchResults.Items.Add(createdPO);
+                this.poSearchResults.SelectedItem = createdPO;
+            }
+
+        } catch (Exception ex) {
+            this.parentApp.HandleException(ex);
+        }
+
+    }
+
+    private void PoSearchTextBox_TextChanged(object sender, EventArgs e) {
+        try {
+            List<PurchaseOrder> results = this.parentApp.PurchaseOrderService.Search(this.poSearchTextBox.Text.Trim());
+            this.ReloadPOSearchResults(results);
+
+        } catch (Exception ex) {
+            this.parentApp.HandleException(ex);
+        }
+    }
+
+    private void PoSearchResults_SelectedIndexChanged(object sender, EventArgs e) {
+        PurchaseOrder? selectedPO = this.poSearchResults.SelectedItem as PurchaseOrder;
+        this.buttonViewPO.Enabled = selectedPO != null;
+    }
+
+    private void ButtonViewPO_Click(object sender, EventArgs e) {
+        try {
+            PurchaseOrder? selectedPO = this.poSearchResults.SelectedItem as PurchaseOrder;
+            if (selectedPO != null) {
+                this.parentApp.PurchaseOrderService.OpenManagementWindowForVisualization(selectedPO);
+            }
+
+        } catch (Exception ex) {
+            this.parentApp.HandleException(ex);
+        }
+
+    }
+
+    #endregion
 
 }
