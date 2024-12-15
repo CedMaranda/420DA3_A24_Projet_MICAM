@@ -414,4 +414,58 @@ internal partial class AdminMainMenu : Form {
 
     #endregion
 
+
+    #region ENTREPOTS ET SHIPMENTS
+
+    private void ButtonCreateWarehouse_Click(object sender, EventArgs e) {
+        try {
+            Warehouse? wh = this.parentApp.WarehouseService.OpenViewForCreation();
+            if (wh != null) {
+                _ = MessageBox.Show("Warehouse created!\n" + wh.ToString());
+            }
+
+        } catch (Exception ex) {
+            this.parentApp.HandleException(ex);
+        }
+    }
+    private void ReloadShipmentSOSearchResults(List<ShippingOrder> searchResults) {
+        this.shipmentSearchSOResults.Items.Clear();
+        this.shipmentSearchSOResults.SelectedItem = null;
+        foreach (ShippingOrder so in searchResults) {
+            _ = this.shipmentSearchSOResults.Items.Add(so);
+        }
+    }
+
+    private void ShipmentSearchSOTextBox_TextChanged(object sender, EventArgs e) {
+        try {
+            List<ShippingOrder> results = this.parentApp.ShippingOrderService.SearchOrders(this.soSearchTextBox.Text.Trim());
+            this.ReloadShipmentSOSearchResults(results);
+
+        } catch (Exception ex) {
+            this.parentApp.HandleException(ex);
+        }
+    }
+
+    private void ShipmentSearchSOResults_SelectedIndexChanged(object sender, EventArgs e) {
+
+        ShippingOrder? selectedSO = this.shipmentSearchSOResults.SelectedItem as ShippingOrder;
+        this.buttonCreateShipment.Enabled = selectedSO != null && selectedSO.Status == ShippingOrderStatusEnum.Processing;
+    }
+
+    private void ButtonCreateShipment_Click_1(object sender, EventArgs e) {
+        try {
+            ShippingOrder selectedSO = this.shipmentSearchSOResults.SelectedItem as ShippingOrder 
+                ?? throw new Exception("Please select a shipping order first.");
+            Shipment? shipment = this.parentApp.ShipmentService.OpenViewForCreation(selectedSO);
+            if (shipment != null) {
+                _ = MessageBox.Show("Shipment created!\n" + shipment.ToString());
+            }
+
+
+        } catch (Exception ex) {
+            this.parentApp.HandleException(ex);
+        }
+    }
+
+    #endregion
 }

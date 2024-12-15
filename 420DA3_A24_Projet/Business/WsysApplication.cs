@@ -14,6 +14,7 @@ internal class WsysApplication {
 
 
     public PasswordService PasswordService { get; private set; }
+    public TrackingNumberFactory TrackingNumberFactory { get; private set; }
     public AdresseService AdresseService { get; private set; }
     public ClientService ClientService { get; private set; }
     public UserService UserService { get; private set; }
@@ -32,6 +33,7 @@ internal class WsysApplication {
         this.context = new WsysDbContext();
         this.LoginService = new LoginService(this);
         this.PasswordService = PasswordService.GetInstance();
+        this.TrackingNumberFactory = TrackingNumberFactory.GetInstance();
         this.AdresseService = new AdresseService();
         this.ClientService = new ClientService();
         this.UserService = new UserService(this, this.context);

@@ -29,6 +29,13 @@ partial class AdminMainMenu {
         this.buttonLogout = new Button();
         this.centerTableLayoutPanel = new TableLayoutPanel();
         this.purchaseOrderMainPanel = new Panel();
+        this.poSearchResults = new ListBox();
+        this.poButtonsTLP = new TableLayoutPanel();
+        this.panel3 = new Panel();
+        this.buttonViewPO = new Button();
+        this.poSearchTextBox = new TextBox();
+        this.createPOTLP = new TableLayoutPanel();
+        this.buttonCreatePO = new Button();
         this.purchaseOrderManagementLabel = new Label();
         this.shipmentMainPanel = new Panel();
         this.shipmentManagementLabel = new Label();
@@ -40,12 +47,14 @@ partial class AdminMainMenu {
         this.buttonEditSO = new Button();
         this.buttonViewSO = new Button();
         this.soSearchTextBox = new TextBox();
-        this.tableLayoutPanel2 = new TableLayoutPanel();
+        this.createSOTLP = new TableLayoutPanel();
         this.buttonCreateSO = new Button();
         this.shipOrderManagementLabel = new Label();
         this.addressMainPanel = new Panel();
         this.addressManagementLabel = new Label();
         this.warehouseMainPanel = new Panel();
+        this.createWarehouseTLP = new TableLayoutPanel();
+        this.buttonCreateWarehouse = new Button();
         this.warehouseManagementLabel = new Label();
         this.supplierMainPanel = new Panel();
         this.supplierManagementLabel = new Label();
@@ -75,23 +84,24 @@ partial class AdminMainMenu {
         this.createUserTLP = new TableLayoutPanel();
         this.buttonCreateUser = new Button();
         this.userManagementLabel = new Label();
-        this.poSearchResults = new ListBox();
-        this.poButtonsTLP = new TableLayoutPanel();
-        this.panel3 = new Panel();
-        this.buttonViewPO = new Button();
-        this.poSearchTextBox = new TextBox();
-        this.createPoTLP = new TableLayoutPanel();
-        this.buttonCreatePO = new Button();
+        this.shipmentSearchSOResults = new ListBox();
+        this.shipmentSearchSOTextBox = new TextBox();
+        this.createShipmentTLP = new TableLayoutPanel();
+        this.buttonCreateShipment = new Button();
         this.bottomBarPanel.SuspendLayout();
         this.centerTableLayoutPanel.SuspendLayout();
         this.purchaseOrderMainPanel.SuspendLayout();
+        this.poButtonsTLP.SuspendLayout();
+        this.panel3.SuspendLayout();
+        this.createPOTLP.SuspendLayout();
         this.shipmentMainPanel.SuspendLayout();
         this.shipOrderMainPanel.SuspendLayout();
         this.tableLayoutPanel3.SuspendLayout();
         this.panel1.SuspendLayout();
-        this.tableLayoutPanel2.SuspendLayout();
+        this.createSOTLP.SuspendLayout();
         this.addressMainPanel.SuspendLayout();
         this.warehouseMainPanel.SuspendLayout();
+        this.createWarehouseTLP.SuspendLayout();
         this.supplierMainPanel.SuspendLayout();
         this.productMainPanel.SuspendLayout();
         this.clientMainPanel.SuspendLayout();
@@ -103,9 +113,7 @@ partial class AdminMainMenu {
         this.tableLayoutPanel1.SuspendLayout();
         this.userActionButtonsPanel.SuspendLayout();
         this.createUserTLP.SuspendLayout();
-        this.poButtonsTLP.SuspendLayout();
-        this.panel3.SuspendLayout();
-        this.createPoTLP.SuspendLayout();
+        this.createShipmentTLP.SuspendLayout();
         this.SuspendLayout();
         // 
         // topBarPanel
@@ -169,13 +177,93 @@ partial class AdminMainMenu {
         this.purchaseOrderMainPanel.Controls.Add(this.poSearchResults);
         this.purchaseOrderMainPanel.Controls.Add(this.poButtonsTLP);
         this.purchaseOrderMainPanel.Controls.Add(this.poSearchTextBox);
-        this.purchaseOrderMainPanel.Controls.Add(this.createPoTLP);
+        this.purchaseOrderMainPanel.Controls.Add(this.createPOTLP);
         this.purchaseOrderMainPanel.Controls.Add(this.purchaseOrderManagementLabel);
         this.purchaseOrderMainPanel.Dock = DockStyle.Fill;
         this.purchaseOrderMainPanel.Location = new Point(807, 250);
         this.purchaseOrderMainPanel.Name = "purchaseOrderMainPanel";
         this.purchaseOrderMainPanel.Size = new Size(195, 241);
         this.purchaseOrderMainPanel.TabIndex = 9;
+        // 
+        // poSearchResults
+        // 
+        this.poSearchResults.Dock = DockStyle.Fill;
+        this.poSearchResults.FormattingEnabled = true;
+        this.poSearchResults.ItemHeight = 15;
+        this.poSearchResults.Location = new Point(0, 86);
+        this.poSearchResults.Name = "poSearchResults";
+        this.poSearchResults.Size = new Size(195, 75);
+        this.poSearchResults.TabIndex = 14;
+        // 
+        // poButtonsTLP
+        // 
+        this.poButtonsTLP.ColumnCount = 3;
+        this.poButtonsTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.poButtonsTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+        this.poButtonsTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.poButtonsTLP.Controls.Add(this.panel3, 1, 0);
+        this.poButtonsTLP.Dock = DockStyle.Bottom;
+        this.poButtonsTLP.Location = new Point(0, 161);
+        this.poButtonsTLP.Name = "poButtonsTLP";
+        this.poButtonsTLP.RowCount = 1;
+        this.poButtonsTLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        this.poButtonsTLP.Size = new Size(195, 80);
+        this.poButtonsTLP.TabIndex = 13;
+        // 
+        // panel3
+        // 
+        this.panel3.Controls.Add(this.buttonViewPO);
+        this.panel3.Dock = DockStyle.Fill;
+        this.panel3.Location = new Point(37, 5);
+        this.panel3.Margin = new Padding(0, 5, 0, 0);
+        this.panel3.Name = "panel3";
+        this.panel3.Size = new Size(120, 75);
+        this.panel3.TabIndex = 0;
+        // 
+        // buttonViewPO
+        // 
+        this.buttonViewPO.Dock = DockStyle.Top;
+        this.buttonViewPO.Enabled = false;
+        this.buttonViewPO.Location = new Point(0, 0);
+        this.buttonViewPO.Name = "buttonViewPO";
+        this.buttonViewPO.Size = new Size(120, 23);
+        this.buttonViewPO.TabIndex = 0;
+        this.buttonViewPO.Text = "Voir Détails";
+        this.buttonViewPO.UseVisualStyleBackColor = true;
+        // 
+        // poSearchTextBox
+        // 
+        this.poSearchTextBox.Dock = DockStyle.Top;
+        this.poSearchTextBox.Location = new Point(0, 63);
+        this.poSearchTextBox.Name = "poSearchTextBox";
+        this.poSearchTextBox.PlaceholderText = "Rechercher ordre de restockage";
+        this.poSearchTextBox.Size = new Size(195, 23);
+        this.poSearchTextBox.TabIndex = 12;
+        // 
+        // createPOTLP
+        // 
+        this.createPOTLP.ColumnCount = 3;
+        this.createPOTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createPOTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+        this.createPOTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createPOTLP.Controls.Add(this.buttonCreatePO, 1, 0);
+        this.createPOTLP.Dock = DockStyle.Top;
+        this.createPOTLP.Location = new Point(0, 23);
+        this.createPOTLP.Name = "createPOTLP";
+        this.createPOTLP.RowCount = 1;
+        this.createPOTLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        this.createPOTLP.Size = new Size(195, 40);
+        this.createPOTLP.TabIndex = 11;
+        // 
+        // buttonCreatePO
+        // 
+        this.buttonCreatePO.Dock = DockStyle.Bottom;
+        this.buttonCreatePO.Location = new Point(25, 14);
+        this.buttonCreatePO.Name = "buttonCreatePO";
+        this.buttonCreatePO.Size = new Size(144, 23);
+        this.buttonCreatePO.TabIndex = 0;
+        this.buttonCreatePO.Text = "Créer Ordre Restockage";
+        this.buttonCreatePO.UseVisualStyleBackColor = true;
         // 
         // purchaseOrderManagementLabel
         // 
@@ -190,6 +278,9 @@ partial class AdminMainMenu {
         // 
         // shipmentMainPanel
         // 
+        this.shipmentMainPanel.Controls.Add(this.createShipmentTLP);
+        this.shipmentMainPanel.Controls.Add(this.shipmentSearchSOResults);
+        this.shipmentMainPanel.Controls.Add(this.shipmentSearchSOTextBox);
         this.shipmentMainPanel.Controls.Add(this.shipmentManagementLabel);
         this.shipmentMainPanel.Dock = DockStyle.Fill;
         this.shipmentMainPanel.Location = new Point(606, 250);
@@ -213,7 +304,7 @@ partial class AdminMainMenu {
         this.shipOrderMainPanel.Controls.Add(this.soSearchResults);
         this.shipOrderMainPanel.Controls.Add(this.tableLayoutPanel3);
         this.shipOrderMainPanel.Controls.Add(this.soSearchTextBox);
-        this.shipOrderMainPanel.Controls.Add(this.tableLayoutPanel2);
+        this.shipOrderMainPanel.Controls.Add(this.createSOTLP);
         this.shipOrderMainPanel.Controls.Add(this.shipOrderManagementLabel);
         this.shipOrderMainPanel.Dock = DockStyle.Fill;
         this.shipOrderMainPanel.Location = new Point(405, 250);
@@ -305,20 +396,20 @@ partial class AdminMainMenu {
         this.soSearchTextBox.TabIndex = 4;
         this.soSearchTextBox.TextChanged += this.SoSearchTextBox_TextChanged;
         // 
-        // tableLayoutPanel2
+        // createSOTLP
         // 
-        this.tableLayoutPanel2.ColumnCount = 3;
-        this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
-        this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        this.tableLayoutPanel2.Controls.Add(this.buttonCreateSO, 1, 0);
-        this.tableLayoutPanel2.Dock = DockStyle.Top;
-        this.tableLayoutPanel2.Location = new Point(0, 23);
-        this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-        this.tableLayoutPanel2.RowCount = 1;
-        this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        this.tableLayoutPanel2.Size = new Size(195, 40);
-        this.tableLayoutPanel2.TabIndex = 2;
+        this.createSOTLP.ColumnCount = 3;
+        this.createSOTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createSOTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+        this.createSOTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createSOTLP.Controls.Add(this.buttonCreateSO, 1, 0);
+        this.createSOTLP.Dock = DockStyle.Top;
+        this.createSOTLP.Location = new Point(0, 23);
+        this.createSOTLP.Name = "createSOTLP";
+        this.createSOTLP.RowCount = 1;
+        this.createSOTLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        this.createSOTLP.Size = new Size(195, 40);
+        this.createSOTLP.TabIndex = 2;
         // 
         // buttonCreateSO
         // 
@@ -364,12 +455,39 @@ partial class AdminMainMenu {
         // 
         // warehouseMainPanel
         // 
+        this.warehouseMainPanel.Controls.Add(this.createWarehouseTLP);
         this.warehouseMainPanel.Controls.Add(this.warehouseManagementLabel);
         this.warehouseMainPanel.Dock = DockStyle.Fill;
         this.warehouseMainPanel.Location = new Point(3, 250);
         this.warehouseMainPanel.Name = "warehouseMainPanel";
         this.warehouseMainPanel.Size = new Size(195, 241);
         this.warehouseMainPanel.TabIndex = 5;
+        // 
+        // createWarehouseTLP
+        // 
+        this.createWarehouseTLP.ColumnCount = 3;
+        this.createWarehouseTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createWarehouseTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+        this.createWarehouseTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createWarehouseTLP.Controls.Add(this.buttonCreateWarehouse, 1, 0);
+        this.createWarehouseTLP.Dock = DockStyle.Top;
+        this.createWarehouseTLP.Location = new Point(0, 23);
+        this.createWarehouseTLP.Name = "createWarehouseTLP";
+        this.createWarehouseTLP.RowCount = 1;
+        this.createWarehouseTLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        this.createWarehouseTLP.Size = new Size(195, 40);
+        this.createWarehouseTLP.TabIndex = 3;
+        // 
+        // buttonCreateWarehouse
+        // 
+        this.buttonCreateWarehouse.Dock = DockStyle.Bottom;
+        this.buttonCreateWarehouse.Location = new Point(25, 14);
+        this.buttonCreateWarehouse.Name = "buttonCreateWarehouse";
+        this.buttonCreateWarehouse.Size = new Size(144, 23);
+        this.buttonCreateWarehouse.TabIndex = 0;
+        this.buttonCreateWarehouse.Text = "Créer Entrepôt";
+        this.buttonCreateWarehouse.UseVisualStyleBackColor = true;
+        this.buttonCreateWarehouse.Click += this.ButtonCreateWarehouse_Click;
         // 
         // warehouseManagementLabel
         // 
@@ -704,85 +822,52 @@ partial class AdminMainMenu {
         this.userManagementLabel.Text = "Gestion des utilisateurs";
         this.userManagementLabel.TextAlign = ContentAlignment.MiddleCenter;
         // 
-        // poSearchResults
+        // shipmentSearchSOResults
         // 
-        this.poSearchResults.Dock = DockStyle.Fill;
-        this.poSearchResults.FormattingEnabled = true;
-        this.poSearchResults.ItemHeight = 15;
-        this.poSearchResults.Location = new Point(0, 86);
-        this.poSearchResults.Name = "poSearchResults";
-        this.poSearchResults.Size = new Size(195, 75);
-        this.poSearchResults.TabIndex = 14;
+        this.shipmentSearchSOResults.Dock = DockStyle.Top;
+        this.shipmentSearchSOResults.FormattingEnabled = true;
+        this.shipmentSearchSOResults.ItemHeight = 15;
+        this.shipmentSearchSOResults.Location = new Point(0, 46);
+        this.shipmentSearchSOResults.Name = "shipmentSearchSOResults";
+        this.shipmentSearchSOResults.Size = new Size(195, 124);
+        this.shipmentSearchSOResults.TabIndex = 8;
+        this.shipmentSearchSOResults.SelectedIndexChanged += this.ShipmentSearchSOResults_SelectedIndexChanged;
         // 
-        // poButtonsTLP
+        // shipmentSearchSOTextBox
         // 
-        this.poButtonsTLP.ColumnCount = 3;
-        this.poButtonsTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        this.poButtonsTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-        this.poButtonsTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        this.poButtonsTLP.Controls.Add(this.panel3, 1, 0);
-        this.poButtonsTLP.Dock = DockStyle.Bottom;
-        this.poButtonsTLP.Location = new Point(0, 161);
-        this.poButtonsTLP.Name = "poButtonsTLP";
-        this.poButtonsTLP.RowCount = 1;
-        this.poButtonsTLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        this.poButtonsTLP.Size = new Size(195, 80);
-        this.poButtonsTLP.TabIndex = 13;
+        this.shipmentSearchSOTextBox.Dock = DockStyle.Top;
+        this.shipmentSearchSOTextBox.Location = new Point(0, 23);
+        this.shipmentSearchSOTextBox.Name = "shipmentSearchSOTextBox";
+        this.shipmentSearchSOTextBox.PlaceholderText = "Rechercher ordre d'expédition";
+        this.shipmentSearchSOTextBox.Size = new Size(195, 23);
+        this.shipmentSearchSOTextBox.TabIndex = 7;
+        this.shipmentSearchSOTextBox.TextChanged += this.ShipmentSearchSOTextBox_TextChanged;
         // 
-        // panel3
+        // createShipmentTLP
         // 
-        this.panel3.Controls.Add(this.buttonViewPO);
-        this.panel3.Dock = DockStyle.Fill;
-        this.panel3.Location = new Point(37, 5);
-        this.panel3.Margin = new Padding(0, 5, 0, 0);
-        this.panel3.Name = "panel3";
-        this.panel3.Size = new Size(120, 75);
-        this.panel3.TabIndex = 0;
+        this.createShipmentTLP.ColumnCount = 3;
+        this.createShipmentTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createShipmentTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+        this.createShipmentTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        this.createShipmentTLP.Controls.Add(this.buttonCreateShipment, 1, 0);
+        this.createShipmentTLP.Dock = DockStyle.Top;
+        this.createShipmentTLP.Location = new Point(0, 170);
+        this.createShipmentTLP.Name = "createShipmentTLP";
+        this.createShipmentTLP.RowCount = 1;
+        this.createShipmentTLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        this.createShipmentTLP.Size = new Size(195, 40);
+        this.createShipmentTLP.TabIndex = 9;
         // 
-        // buttonViewPO
+        // buttonCreateShipment
         // 
-        this.buttonViewPO.Dock = DockStyle.Top;
-        this.buttonViewPO.Enabled = false;
-        this.buttonViewPO.Location = new Point(0, 0);
-        this.buttonViewPO.Name = "buttonViewPO";
-        this.buttonViewPO.Size = new Size(120, 23);
-        this.buttonViewPO.TabIndex = 0;
-        this.buttonViewPO.Text = "Voir Détails";
-        this.buttonViewPO.UseVisualStyleBackColor = true;
-        // 
-        // poSearchTextBox
-        // 
-        this.poSearchTextBox.Dock = DockStyle.Top;
-        this.poSearchTextBox.Location = new Point(0, 63);
-        this.poSearchTextBox.Name = "poSearchTextBox";
-        this.poSearchTextBox.PlaceholderText = "Rechercher ordre de restockage";
-        this.poSearchTextBox.Size = new Size(195, 23);
-        this.poSearchTextBox.TabIndex = 12;
-        // 
-        // createPoTLP
-        // 
-        this.createPoTLP.ColumnCount = 3;
-        this.createPoTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        this.createPoTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
-        this.createPoTLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        this.createPoTLP.Controls.Add(this.buttonCreatePO, 1, 0);
-        this.createPoTLP.Dock = DockStyle.Top;
-        this.createPoTLP.Location = new Point(0, 23);
-        this.createPoTLP.Name = "createPoTLP";
-        this.createPoTLP.RowCount = 1;
-        this.createPoTLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        this.createPoTLP.Size = new Size(195, 40);
-        this.createPoTLP.TabIndex = 11;
-        // 
-        // buttonCreatePO
-        // 
-        this.buttonCreatePO.Dock = DockStyle.Bottom;
-        this.buttonCreatePO.Location = new Point(25, 14);
-        this.buttonCreatePO.Name = "buttonCreatePO";
-        this.buttonCreatePO.Size = new Size(144, 23);
-        this.buttonCreatePO.TabIndex = 0;
-        this.buttonCreatePO.Text = "Créer Ordre Restockage";
-        this.buttonCreatePO.UseVisualStyleBackColor = true;
+        this.buttonCreateShipment.Dock = DockStyle.Bottom;
+        this.buttonCreateShipment.Location = new Point(25, 14);
+        this.buttonCreateShipment.Name = "buttonCreateShipment";
+        this.buttonCreateShipment.Size = new Size(144, 23);
+        this.buttonCreateShipment.TabIndex = 0;
+        this.buttonCreateShipment.Text = "Créer Expédition";
+        this.buttonCreateShipment.UseVisualStyleBackColor = true;
+        this.buttonCreateShipment.Click += this.ButtonCreateShipment_Click_1;
         // 
         // AdminMainMenu
         // 
@@ -800,14 +885,19 @@ partial class AdminMainMenu {
         this.centerTableLayoutPanel.ResumeLayout(false);
         this.purchaseOrderMainPanel.ResumeLayout(false);
         this.purchaseOrderMainPanel.PerformLayout();
+        this.poButtonsTLP.ResumeLayout(false);
+        this.panel3.ResumeLayout(false);
+        this.createPOTLP.ResumeLayout(false);
         this.shipmentMainPanel.ResumeLayout(false);
+        this.shipmentMainPanel.PerformLayout();
         this.shipOrderMainPanel.ResumeLayout(false);
         this.shipOrderMainPanel.PerformLayout();
         this.tableLayoutPanel3.ResumeLayout(false);
         this.panel1.ResumeLayout(false);
-        this.tableLayoutPanel2.ResumeLayout(false);
+        this.createSOTLP.ResumeLayout(false);
         this.addressMainPanel.ResumeLayout(false);
         this.warehouseMainPanel.ResumeLayout(false);
+        this.createWarehouseTLP.ResumeLayout(false);
         this.supplierMainPanel.ResumeLayout(false);
         this.productMainPanel.ResumeLayout(false);
         this.clientMainPanel.ResumeLayout(false);
@@ -821,9 +911,7 @@ partial class AdminMainMenu {
         this.tableLayoutPanel1.ResumeLayout(false);
         this.userActionButtonsPanel.ResumeLayout(false);
         this.createUserTLP.ResumeLayout(false);
-        this.poButtonsTLP.ResumeLayout(false);
-        this.panel3.ResumeLayout(false);
-        this.createPoTLP.ResumeLayout(false);
+        this.createShipmentTLP.ResumeLayout(false);
         this.ResumeLayout(false);
     }
 
@@ -869,7 +957,7 @@ partial class AdminMainMenu {
     private Button buttonEditSO;
     private Button buttonViewSO;
     private TextBox soSearchTextBox;
-    private TableLayoutPanel tableLayoutPanel2;
+    private TableLayoutPanel createSOTLP;
     private Button buttonCreateSO;
     private ListBox roleSearchResults;
     private TextBox roleSearchTextBox;
@@ -885,6 +973,12 @@ partial class AdminMainMenu {
     private Panel panel3;
     private Button buttonViewPO;
     private TextBox poSearchTextBox;
-    private TableLayoutPanel createPoTLP;
+    private TableLayoutPanel createPOTLP;
     private Button buttonCreatePO;
+    private TableLayoutPanel createWarehouseTLP;
+    private Button buttonCreateWarehouse;
+    private TableLayoutPanel createShipmentTLP;
+    private Button buttonCreateShipment;
+    private ListBox shipmentSearchSOResults;
+    private TextBox shipmentSearchSOTextBox;
 }

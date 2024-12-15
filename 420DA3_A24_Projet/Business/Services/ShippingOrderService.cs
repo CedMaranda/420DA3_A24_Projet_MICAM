@@ -136,7 +136,7 @@ internal class ShippingOrderService {
                 throw new ValidationException("A shipping order must have the status 'Processing' to be marked as packaged.");
             }
             // TODO @PROF: fix this when shipment creation window will be done
-            Shipment shipment = this.parentApp.ShipmentService.OpenManagementWindowForCreation() 
+            Shipment shipment = this.parentApp.ShipmentService.OpenViewForCreation(order) 
                 ?? throw new Exception("You must create a shipment to mark a shipping order as packaged.");
             order.MarkAsPackaged(shipment);
             return this.UpdateOrder(order);

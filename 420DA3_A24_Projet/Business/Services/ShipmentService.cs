@@ -2,9 +2,11 @@
 using _420DA3_A24_Projet.DataAccess.Contexts;
 using _420DA3_A24_Projet.DataAccess.DAOs;
 using _420DA3_A24_Projet.Presentation.Views;
+using Project_Utilities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,8 +23,11 @@ internal class ShipmentService {
 
 
 
-    public Shipment? OpenViewForCreation() {
-        throw new NotImplementedException("Shipment view not implemented.");
+    public Shipment? OpenViewForCreation(ShippingOrder order) {
+        Shipment shipment = (Shipment) FormatterServices.GetUninitializedObject(typeof(Shipment));
+        shipment.ShippingOrder = order;
+        DialogResult result = this.view.OpenForCreation(shipment);
+        return result == DialogResult.OK ? shipment : null;
     }
 
     public Shipment OpenViewForDetailsView(Shipment shipment) {
@@ -36,7 +41,6 @@ internal class ShipmentService {
     public Shipment OpenViewForDeletion(Shipment shipment) {
         throw new NotImplementedException("Shipment view not implemented.");
     }
-
 
     public List<Shipment> GetAll(bool includeDeleted = false) {
         return this.dao.GetAll(includeDeleted);
