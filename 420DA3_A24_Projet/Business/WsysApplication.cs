@@ -20,6 +20,8 @@ internal class WsysApplication {
     public RoleService RoleService { get; private set; }
     public ShippingOrderService ShippingOrderService { get; private set; }
     public PurchaseOrderService PurchaseOrderService { get; private set; }
+    public WarehouseService WarehouseService { get; private set; }
+    public ShipmentService ShipmentService { get; private set; }
     public LoginService LoginService { get; private set; }
 
 
@@ -36,6 +38,8 @@ internal class WsysApplication {
         this.RoleService = new RoleService(this, this.context);
         this.ShippingOrderService = new ShippingOrderService(this, this.context);
         this.PurchaseOrderService = new PurchaseOrderService(this, this.context);
+        this.WarehouseService = new WarehouseService(this, this.context);
+        this.WarehouseService = new WarehouseService(this, this.context);
 
 
 
