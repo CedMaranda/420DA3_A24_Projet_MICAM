@@ -3,6 +3,13 @@ using Project_Utilities.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 
+/// <summary>
+/// Classe représentant une adresse avec des informations détaillées telles que le destinataire,
+/// le numéro civique, la rue, la ville, l'état, le pays et le code postal. 
+/// Fournit des propriétés pour valider les données et des constructeurs pour initialiser l'objet.
+/// Inclut également des métadonnées telles que les dates de création, de modification et de suppression.
+/// </summary>
+
 public class Adresse {
 
     public const int AdresseeMaxLength = 64;

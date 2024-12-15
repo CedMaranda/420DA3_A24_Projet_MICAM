@@ -1,7 +1,9 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// /// Service de gestion des adresses, fournissant des opérations pour récupérer, 
+/// rechercher, créer, mettre à jour et supprimer des adresses. Utilise une instance 
+/// de AdresseDAO pour interagir avec la base de données.
 /// </summary>
 public class AdresseService {
          

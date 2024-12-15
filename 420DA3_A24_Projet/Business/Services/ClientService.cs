@@ -1,6 +1,10 @@
 ﻿using System;
 
-
+/// <summary>
+/// Service de gestion des clients. Permet de récupérer, rechercher, 
+/// créer, mettre à jour et supprimer des clients tout en validant 
+/// les informations fournies.
+/// </summary>
 public class ClientService
 {
     private readonly ClientDAO clientDAO;
