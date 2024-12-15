@@ -41,7 +41,7 @@ internal class WsysApplication {
         this.ShippingOrderService = new ShippingOrderService(this, this.context);
         this.PurchaseOrderService = new PurchaseOrderService(this, this.context);
         this.WarehouseService = new WarehouseService(this, this.context);
-        this.WarehouseService = new WarehouseService(this, this.context);
+        this.ShipmentService = new ShipmentService(this, this.context);
 
 
 
