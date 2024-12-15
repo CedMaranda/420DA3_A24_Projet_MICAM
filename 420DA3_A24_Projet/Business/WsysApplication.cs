@@ -28,6 +28,7 @@ internal class WsysApplication {
     public WsysApplication() {
 
         this.context = new WsysDbContext();
+        this.LoginService = new LoginService(this);
         this.PasswordService = PasswordService.GetInstance();
         this.AdresseService = new AdresseService();
         this.ClientService = new ClientService();
@@ -38,7 +39,6 @@ internal class WsysApplication {
 
 
 
-        this.LoginService = new LoginService(this);
         this.adminMainMenu = new AdminMainMenu(this);
         this.officeEmployeeMainMenu = new OfficeEmpMainMenu(this);
         this.warehouseEmployeeMainMenu = new WhEmpMainMenu(this);
