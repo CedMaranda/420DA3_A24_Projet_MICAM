@@ -15,7 +15,7 @@ using System.Windows.Forms;
 namespace _420DA3_A24_Projet.Presentation.Views;
 internal partial class ShipmentView : Form {
 
-    private WsysApplication parentApp;
+    private readonly WsysApplication parentApp;
 
     /// <summary>
     /// The <see cref="ViewActionsEnum"/> value indicating the intent for which the window

@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 namespace _420DA3_A24_Projet.Business.Services;
 internal class ShipmentService {
 
-    private ShipmentDAO dao;
-    private ShipmentView view;
+    private readonly ShipmentDAO dao;
+    private readonly ShipmentView view;
 
     public ShipmentService(WsysApplication application, WsysDbContext context) {
         this.dao = new ShipmentDAO(context);

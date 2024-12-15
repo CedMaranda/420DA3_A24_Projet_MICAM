@@ -9,8 +9,7 @@ namespace _420DA3_A24_Projet.Presentation;
 /// </summary>
 internal partial class WhEmpMainMenu : Form {
 
-    private WsysApplication parentApp;
-    private bool doAutoRefreshLists = false;
+    private readonly WsysApplication parentApp;
     private Task? timer;
 
     /// <summary>

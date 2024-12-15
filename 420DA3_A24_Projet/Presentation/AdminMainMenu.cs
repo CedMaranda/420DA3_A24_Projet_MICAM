@@ -10,9 +10,9 @@ internal partial class AdminMainMenu : Form {
     /// Valeur générique pour indiquer qu'aucun élément n'est sélectionné dans une liste.
     /// À ajouter à vos listes pour offrir l'option "Aucun" aux utilisateurs.
     /// </summary>
-    private static object listNoneSelectedValue = "Aucun";
+    private static readonly object listNoneSelectedValue = "Aucun";
 
-    private WsysApplication parentApp;
+    private readonly WsysApplication parentApp;
 
     public AdminMainMenu(WsysApplication application) {
         this.parentApp = application;

@@ -7,10 +7,10 @@ using System.Text;
 namespace _420DA3_A24_Projet.Business;
 internal class WsysApplication {
 
-    private WsysDbContext context;
-    private AdminMainMenu adminMainMenu;
-    private OfficeEmpMainMenu officeEmployeeMainMenu;
-    private WhEmpMainMenu warehouseEmployeeMainMenu;
+    private readonly WsysDbContext context;
+    private readonly AdminMainMenu adminMainMenu;
+    private readonly OfficeEmpMainMenu officeEmployeeMainMenu;
+    private readonly WhEmpMainMenu warehouseEmployeeMainMenu;
 
 
     public PasswordService PasswordService { get; private set; }
