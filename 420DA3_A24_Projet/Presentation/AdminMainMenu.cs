@@ -454,7 +454,7 @@ internal partial class AdminMainMenu : Form {
 
     private void ButtonCreateShipment_Click_1(object sender, EventArgs e) {
         try {
-            ShippingOrder selectedSO = this.shipmentSearchSOResults.SelectedItem as ShippingOrder 
+            ShippingOrder selectedSO = this.shipmentSearchSOResults.SelectedItem as ShippingOrder
                 ?? throw new Exception("Please select a shipping order first.");
             Shipment? shipment = this.parentApp.ShipmentService.OpenViewForCreation(selectedSO);
             if (shipment != null) {
@@ -468,4 +468,8 @@ internal partial class AdminMainMenu : Form {
     }
 
     #endregion
+
+    private void buttonCreateRole_Click_1(object sender, EventArgs e) {
+
+    }
 }
