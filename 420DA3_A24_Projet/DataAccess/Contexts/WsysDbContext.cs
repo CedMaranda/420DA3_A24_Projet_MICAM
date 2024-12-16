@@ -15,6 +15,7 @@ internal class WsysDbContext : DbContext {
     public DbSet<ShippingOrderProduct> ShippingOrderProducts { get; set; }
     public DbSet<Adresse> Adresses { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
     public DbSet<Client> Clients { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
@@ -658,7 +659,244 @@ internal class WsysDbContext : DbContext {
             .HasPrincipalKey(client => client.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
-      
+        #region PRODUCT
+
+        _ = modelBuilder.Entity<Product>()
+           .ToTable(nameof(this.Products))
+           .HasKey(product => product.Id);
+
+        _ = modelBuilder.Entity<Product>()
+            .HasIndex(product => product.ProductName)
+            .IsUnique(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.Id)
+            .HasColumnName(nameof(Product.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.ProductName)
+            .HasColumnName(nameof(Product.ProductName))
+            .HasColumnOrder(1)
+            .HasColumnType($"nvarchar({Product.PRODUCT_NAME_MAX_LENGTH})")
+            .HasMaxLength(Product.PRODUCT_NAME_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.ProductDescription)
+            .HasColumnName(nameof(Product.ProductDescription))
+            .HasColumnOrder(2)
+            .HasColumnType($"nvarchar({Product.PRODUCT_DESCRIPTION_MAX_LENGTH})")
+            .HasMaxLength(Product.PRODUCT_DESCRIPTION_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.UPCCode)
+            .HasColumnName(nameof(Product.UPCCode))
+            .HasColumnOrder(3)
+            .HasColumnType($"nvarchar({Product.PRODUCT_UPC_CODE_MAX_LENGTH})")
+            .HasMaxLength(Product.PRODUCT_UPC_CODE_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.ProductImageFileName)
+            .HasColumnName(nameof(Product.ProductImageFileName))
+            .HasColumnOrder(4)
+            .HasColumnType($"nvarchar({Product.PRODUCT_IMAGE_FILE_NAME_MAX_LENGTH})")
+            .HasMaxLength(Product.PRODUCT_IMAGE_FILE_NAME_MAX_LENGTH)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.OwnerClientId)
+            .HasColumnName(nameof(Product.OwnerClientId))
+            .HasColumnOrder(5)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.SupplierId)
+            .HasColumnName(nameof(Product.SupplierId))
+            .HasColumnOrder(6)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.ProductSupplierCode)
+            .HasColumnName(nameof(Product.ProductSupplierCode))
+            .HasColumnOrder(7)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.ProductQuantity)
+            .HasColumnName(nameof(Product.ProductQuantity))
+            .HasColumnOrder(8)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.ProductQuantityTargeted)
+            .HasColumnName(nameof(Product.ProductQuantityTargeted))
+            .HasColumnOrder(9)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.ProductWeight)
+            .HasColumnName(nameof(Product.ProductWeight))
+            .HasColumnOrder(10)
+            .HasColumnType("decimal")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.DateCreated)
+            .HasColumnName(nameof(Product.DateCreated))
+            .HasColumnOrder(11)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.DateModified)
+            .HasColumnName(nameof(Product.DateModified))
+            .HasColumnOrder(12)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.DateDeleted)
+            .HasColumnName(nameof(Product.DateDeleted))
+            .HasColumnOrder(13)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Product>()
+            .Property(product => product.RowVersion)
+            .HasColumnName(nameof(Product.RowVersion))
+            .HasColumnOrder(14)
+            .IsRowVersion();
+
+
+        _ = modelBuilder.Entity<Product>()
+            .HasOne(product => product.OwnerClient)
+            .WithMany(client => client.Products)
+            .HasForeignKey(product => product.OwnerClientId)
+            .HasPrincipalKey(client => client.Id)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        _ = modelBuilder.Entity<Product>()
+            .HasOne(product => product.Supplier)
+            .WithMany(supplier => supplier.Products)
+            .HasForeignKey(product => product.SupplierId)
+            .HasPrincipalKey(supplier => supplier.Id)
+            .OnDelete(DeleteBehavior.SetNull);
+
+
+        #endregion
+
+
+        #region SUPPLIER
+
+        _ = modelBuilder.Entity<Supplier>()
+           .ToTable(nameof(this.Suppliers))
+           .HasKey(supplier => supplier.Id);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .HasIndex(supplier => supplier.SupplierName)
+            .IsUnique(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.Id)
+            .HasColumnName(nameof(Supplier.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.SupplierName)
+            .HasColumnName(nameof(Supplier.SupplierName))
+            .HasColumnOrder(1)
+            .HasColumnType($"nvarchar({Supplier.SUPPLIER_NAME_MAX_LENGTH})")
+            .HasMaxLength(Supplier.SUPPLIER_NAME_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.SupplierContactLastName)
+            .HasColumnName(nameof(Supplier.SupplierContactLastName))
+            .HasColumnOrder(2)
+            .HasColumnType($"nvarchar({Supplier.SUPPLIER_CONTACT_LASTNAME_MAX_LENGTH})")
+            .HasMaxLength(Supplier.SUPPLIER_CONTACT_LASTNAME_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.SupplierContactFirstname)
+            .HasColumnName(nameof(Supplier.SupplierContactFirstname))
+            .HasColumnOrder(3)
+            .HasColumnType($"nvarchar({Supplier.SUPPLIER_CONTACT_FIRSTNAME_MAX_LENGTH})")
+            .HasMaxLength(Supplier.SUPPLIER_CONTACT_FIRSTNAME_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.SupplierContactEmail)
+            .HasColumnName(nameof(Supplier.SupplierContactEmail))
+            .HasColumnOrder(4)
+            .HasColumnType($"nvarchar({Supplier.SUPPLIER_CONTACT_EMAIL_MAX_LENGTH})")
+            .HasMaxLength(Supplier.SUPPLIER_CONTACT_EMAIL_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.SupplierContactPhone)
+            .HasColumnName(nameof(Supplier.SupplierContactPhone))
+            .HasColumnOrder(5)
+            .HasColumnType($"nvarchar({Supplier.SUPPLIER_CONTACT_PHONE_MAX_LENGTH})")
+            .HasMaxLength(Supplier.SUPPLIER_CONTACT_PHONE_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.ProductCodeSupplier)
+            .HasColumnName(nameof(Supplier.ProductCodeSupplier))
+            .HasColumnOrder(6)
+            .HasColumnType($"nvarchar({Supplier.SUPPLIER_PRODUCT_CODE_MAX_LENGTH})")
+            .HasMaxLength(Supplier.SUPPLIER_PRODUCT_CODE_MAX_LENGTH)
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.DateCreated)
+            .HasColumnName(nameof(Supplier.DateCreated))
+            .HasColumnOrder(7)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.DateModified)
+            .HasColumnName(nameof(Supplier.DateModified))
+            .HasColumnOrder(8)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.DateDeleted)
+            .HasColumnName(nameof(Supplier.DateDeleted))
+            .HasColumnOrder(9)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        _ = modelBuilder.Entity<Supplier>()
+            .Property(supplier => supplier.RowVersion)
+            .HasColumnName(nameof(Supplier.RowVersion))
+            .HasColumnOrder(16)
+            .IsRowVersion();
+
+        #endregion
 
 
 

@@ -1,85 +1,81 @@
-﻿using _420DA3_A24_Projet.Business;
-using _420DA3_A24_Projet.Business.Domain;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using _420DA3_A24_Projet.Business.Domain;
 using Project_Utilities.Enums;
 
 namespace _420DA3_A24_Projet.Presentation.Views;
 
 /// <summary>
-/// Management window for <see cref="User"/> entities.
+/// TODO @PROF : documenter
 /// </summary>
 internal partial class UserView : Form {
     private bool isInitialized = false;
-    private readonly WsysApplication parentApp;
+    private WsysApplication app;
 
     /// <summary>
-    /// The <see cref="ViewActionsEnum"/> value indicating the intent for which the window
-    /// is currently opened or was opened last.
+    /// TODO @PROF : documenter
     /// </summary>
     public ViewActionsEnum CurrentAction { get; private set; }
     /// <summary>
-    /// The working <see cref="User"/> value with which the window is currently
-    /// opened or was opened last.
+    /// TODO @PROF : documenter
     /// </summary>
-    public User CurrentEntityInstance { get; private set; } = null!;
+    public Product CurrentEntityInstance { get; private set; }
 
     /// <summary>
-    /// <see cref="UserView"/> constructor.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="application"></param>
     public UserView(WsysApplication application) {
-        this.parentApp = application;
+        this.app = application;
         this.InitializeComponent();
     }
 
     /// <summary>
-    /// Opens a <see cref="UserView"/> modal window in entity creation mode.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="instance"></param>
     /// <returns></returns>
-    public DialogResult OpenForCreation(User instance) {
+    public DialogResult OpenForCreation(Product instance) {
         this.PreOpenSetup(instance, ViewActionsEnum.Creation, "Création d'un utilisateur", "Créer");
         return this.ShowDialog();
     }
 
     /// <summary>
-    /// Opens a <see cref="UserView"/> modal window in entity visualization mode.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="instance"></param>
     /// <returns></returns>
-    public DialogResult OpenForDetailsView(User instance) {
+    public DialogResult OpenForDetailsView(Product instance) {
         this.PreOpenSetup(instance, ViewActionsEnum.Visualization, "Détails d'un utilisateur", "OK");
         return this.ShowDialog();
     }
 
     /// <summary>
-    /// Opens a <see cref="UserView"/> modal window in entity edition mode.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="instance"></param>
     /// <returns></returns>
-    public DialogResult OpenForModification(User instance) {
+    public DialogResult OpenForModification(Product instance) {
         this.PreOpenSetup(instance, ViewActionsEnum.Edition, "Modifier un utilisateur", "Enregistrer");
         return this.ShowDialog();
     }
 
     /// <summary>
-    /// Opens a <see cref="UserView"/> modal window in entity deletion mode.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="instance"></param>
     /// <returns></returns>
-    public DialogResult OpenForDeletion(User instance) {
+    public DialogResult OpenForDeletion(Product instance) {
         this.PreOpenSetup(instance, ViewActionsEnum.Deletion, "Supprimer un utilisateur", "Supprimer");
         return this.ShowDialog();
     }
 
     /// <summary>
-    /// Performs pre-opening initialization, clean-up and preparation for the <see cref="UserView"/> window.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="instance"></param>
     /// <param name="action"></param>
     /// <param name="windowTitle"></param>
     /// <param name="actionButtonText"></param>
-    private void PreOpenSetup(User instance, ViewActionsEnum action, string windowTitle, string actionButtonText) {
+    private void PreOpenSetup(Product instance, ViewActionsEnum action, string windowTitle, string actionButtonText) {
         // load selectors with items if not loaded
         this.Initialize();
         // remember what the current action is
@@ -103,8 +99,7 @@ internal partial class UserView : Form {
     }
 
     /// <summary>
-    /// Ensures that the selector controls of the <see cref="UserView"/> window
-    /// with static content have their items populated.
+    /// TODO @PROF : documenter
     /// </summary>
     private void Initialize() {
         if (!this.isInitialized) {
@@ -114,37 +109,26 @@ internal partial class UserView : Form {
     }
 
     /// <summary>
-    /// Fills the roles and warehouse selectors of the <see cref="UserView"/> window with all
-    /// the existing <see cref="Role"/> and <see cref="Entrepot"/> values respectively.
+    /// TODO @PROF : documenter
     /// </summary>
     private void ReloadSelectors() {
-        try {
-            this.userRolesValues.Items.Clear();
-            List<Role> roles = this.parentApp.RoleService.GetAllRoles();
-            foreach (Role role in roles) {
-                _ = this.userRolesValues.Items.Add(role);
-            }
-
-            this.whEmpWarehouseValue.Items.Clear();
-            _ = this.whEmpWarehouseValue.Items.Add("None");
-            // TODO @PROF: fix this quand le service entrepot sera créé
-            List<Warehouse> entrepots = this.parentApp.WarehouseService.GetAllEntrepots();
-            foreach (Warehouse entrepot in entrepots) {
-                _ = this.whEmpWarehouseValue.Items.Add(entrepot);
-            }
-
-        } catch (Exception ex) {
-            throw new Exception($"{this.GetType().ShortDisplayName}: Failed to load data in selectors.", ex);
+        this.userRolesValues.Items.Clear();
+        foreach (Role role in this.app.RoleService.GetAllRoles()) {
+            _ = this.userRolesValues.Items.Add(role);
+        }
+        this.whEmpWarehouseValue.Items.Clear();
+        // TODO @PROF: fix this quand le service entrepot sera créé
+        foreach (Entrepot entrepot in this.app.EntrepotService.GetAllEntrepots()) {
+            _ = this.whEmpWarehouseValue.Items.Add(entrepot);
         }
     }
 
     /// <summary>
-    /// Loads the data of a given <paramref name="user"/> in the <see cref="UserView"/>
-    /// window's controls.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    private User LoadDataInControls(User user) {
+    private Product LoadDataInControls(Product user) {
         this.idValue.Value = user.Id;
         this.usernameValue.Text = user.Username;
         this.passwordHashValue.Text = user.PasswordHash;
@@ -162,25 +146,21 @@ internal partial class UserView : Form {
     }
 
     /// <summary>
-    /// Takes data from the basic <see cref="UserView"/>'s controls and assigns
-    /// it to the given <paramref name="user"/>.
+    /// TODO @PROF : documenter
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    private User SaveDataFromControls(User user) {
+    private Product GetDataFromControls(Product user) {
         user.Username = this.usernameValue.Text;
-        user.PasswordHash = this.parentApp.PasswordService.HashPassword(this.passwordValue.Text);
-        user.EmployeeWarehouse = this.whEmpWarehouseValue.SelectedItem as Warehouse;
-        user.Roles.Clear();
+        // TODO: get clear password, encrypt it, and set as user's passwordHash
+        user.EmployeeWarehouse = this.whEmpWarehouseValue.SelectedItem as Entrepot;
+        user.Roles = new List<Role>();
         foreach (Role role in this.userRolesValues.SelectedItems) {
             user.Roles.Add(role);
         }
         return user;
     }
 
-    /// <summary>
-    /// Enables the <see cref="UserView"/> window's controls for creation and edition modes.
-    /// </summary>
     private void ActivateControls() {
         this.usernameValue.Enabled = true;
         this.passwordValue.Enabled = true;
@@ -188,9 +168,6 @@ internal partial class UserView : Form {
         this.userRolesValues.Enabled = true;
     }
 
-    /// <summary>
-    /// Disables the <see cref="UserView"/> window's controls for visualization and deletion modes.
-    /// </summary>
     private void DeactivateControls() {
         this.usernameValue.Enabled = false;
         this.passwordValue.Enabled = false;
@@ -198,34 +175,20 @@ internal partial class UserView : Form {
         this.userRolesValues.Enabled = false;
     }
 
+    /// <summary>
+    /// TODO @PROF : documenter
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BtnAction_Click(object sender, EventArgs e) {
-        try {
-
-            switch (this.CurrentAction) {
-                case ViewActionsEnum.Creation:
-                    _ = this.SaveDataFromControls(this.CurrentEntityInstance);
-                    this.CurrentEntityInstance = this.parentApp.UserService.CreateUserInDatabase(this.CurrentEntityInstance);
-                    break;
-                case ViewActionsEnum.Edition:
-                    _ = this.SaveDataFromControls(this.CurrentEntityInstance);
-                    this.CurrentEntityInstance = this.parentApp.UserService.UpdateUserInDatabase(this.CurrentEntityInstance);
-                    break;
-                case ViewActionsEnum.Deletion:
-                    this.CurrentEntityInstance = this.parentApp.UserService.DeleteUserFromDatabase(this.CurrentEntityInstance);
-                    break;
-                case ViewActionsEnum.Visualization:
-                    // nothing to do
-                    break;
-                default:
-                    throw new NotImplementedException($"The view action [{Enum.GetName(this.CurrentAction)}] is not implemented in [{this.GetType().ShortDisplayName}].");
-            }
-            this.DialogResult = DialogResult.OK;
-
-        } catch (Exception ex) {
-            this.parentApp.HandleException(ex);
-        }
+        // TODO @PROF: implémenter processus des actions selon l'action courante
     }
 
+    /// <summary>
+    /// TODO @PROF : documenter
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BtnCancel_Click(object sender, EventArgs e) {
         this.DialogResult = DialogResult.Cancel;
     }

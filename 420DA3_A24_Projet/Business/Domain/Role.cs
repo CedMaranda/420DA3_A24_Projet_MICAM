@@ -65,7 +65,7 @@ public class Role {
     /// <summary>
     /// Liste des utilisateurs possédant ce rôle.
     /// </summary>
-    public virtual List<User> Users { get; set; } = new List<User>();
+    public virtual List<Product> Users { get; set; } = new List<Product>();
 
 
     /// <summary>

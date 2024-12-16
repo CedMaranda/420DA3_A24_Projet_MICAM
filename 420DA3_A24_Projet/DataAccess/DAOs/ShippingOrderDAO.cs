@@ -49,7 +49,7 @@ internal class ShippingOrderDAO {
     /// <param name="employee"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
-    public List<ShippingOrder> GetProcessingByEmployee(User employee, bool includeDeleted = false) {
+    public List<ShippingOrder> GetProcessingByEmployee(Product employee, bool includeDeleted = false) {
         return this.context.ShippingOrders
             .Include(so => so.SourceClient)
                 .ThenInclude(client => client.AssignedWarehouse)

@@ -54,7 +54,7 @@ namespace _420DA3_A24_Projet.Business.Domain {
         /// <summary>
         /// Liste des employés assignés à cet entrepôt.
         /// </summary>
-        public virtual List<User> Employees { get; set; } = new List<User>();
+        public virtual List<Product> Employees { get; set; } = new List<Product>();
 
         /// <summary>
         /// Liste des produits stockés dans cet entrepôt.

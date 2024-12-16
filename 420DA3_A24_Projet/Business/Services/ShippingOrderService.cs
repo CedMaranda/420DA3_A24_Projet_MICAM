@@ -103,7 +103,7 @@ internal class ShippingOrderService {
     /// <param name="employee"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
-    public List<ShippingOrder> GetProcessingOrdersByEmployee(User employee, bool includeDeleted = false) {
+    public List<ShippingOrder> GetProcessingOrdersByEmployee(Product employee, bool includeDeleted = false) {
         return this.dao.GetProcessingByEmployee(employee, includeDeleted);
     }
 

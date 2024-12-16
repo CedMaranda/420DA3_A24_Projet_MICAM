@@ -15,7 +15,7 @@ internal class LoginService {
     /// <summary>
     /// L'utilisateur connecté ou null si aucun utilisateur n'est connecté.
     /// </summary>
-    public User? LoggedInUser { get; private set; }
+    public Product? LoggedInUser { get; private set; }
     /// <summary>
     /// Le role de l'utilisateur connecté, celui sélectionné si l'utilisateur 
     /// en possède plusieurs ou null si aucun utilisateur n'est connecté.
@@ -58,7 +58,7 @@ internal class LoginService {
     /// <exception cref="InvalidPasswordException">Si le mot de passe reçu ne concorde pas avec celui de l'utilisateur.</exception>
     /// <exception cref="Exception"></exception>
     public void TryLogin(string username, string password) {
-        User? user = this.parentApp.UserService.GetUserByUsername(username) ?? throw new UserNotFoundException($"Nom d'utilisateur [{username}] invalide.");
+        Product? user = this.parentApp.UserService.GetUserByUsername(username) ?? throw new UserNotFoundException($"Nom d'utilisateur [{username}] invalide.");
         if (!this.parentApp.PasswordService.ValidatePassword(password, user.PasswordHash)) {
             throw new InvalidPasswordException("Mot de passe invalide.");
         }

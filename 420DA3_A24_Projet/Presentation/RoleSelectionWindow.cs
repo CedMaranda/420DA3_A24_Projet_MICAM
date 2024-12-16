@@ -12,7 +12,7 @@ internal partial class RoleSelectionWindow : Form {
         this.InitializeComponent();
     }
 
-    public DialogResult OpenForUser(User user) {
+    public DialogResult OpenForUser(Product user) {
         this.SelectedRole = null;
         this.roleSelectionListBox.Items.Clear();
         this.roleSelectionListBox.ClearSelected();

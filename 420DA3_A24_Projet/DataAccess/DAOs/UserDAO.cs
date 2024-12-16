@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 
 /// <summary>
-/// Data Access Object class for <see cref="User"/> entities.
+/// Data Access Object class for <see cref="Product"/> entities.
 /// </summary>
 internal class UserDAO {
 
@@ -21,13 +21,13 @@ internal class UserDAO {
     }
 
     /// <summary>
-    /// Retrieves from the database the <see cref="User"/> whose 
-    /// <see cref="User.Id"/> matches the given <paramref name="id"/>.
+    /// Retrieves from the database the <see cref="Product"/> whose 
+    /// <see cref="Product.Id"/> matches the given <paramref name="id"/>.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
-    public User? GetById(int id, bool includeDeleted = false) {
+    public Product? GetById(int id, bool includeDeleted = false) {
         try {
             return this.context.Users
                 .Where(user => user.Id == id && (includeDeleted || user.DateDeleted == null))
@@ -41,13 +41,13 @@ internal class UserDAO {
     }
 
     /// <summary>
-    /// Retrieves from the database the <see cref="User"/> whose 
-    /// <see cref="User.Username"/> matches the given <paramref name="username"/>.
+    /// Retrieves from the database the <see cref="Product"/> whose 
+    /// <see cref="Product.Username"/> matches the given <paramref name="username"/>.
     /// </summary>
     /// <param name="username"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
-    public User? GetByUsername(string username, bool includeDeleted = false) {
+    public Product? GetByUsername(string username, bool includeDeleted = false) {
         try {
             return this.context.Users
                 .Where(user => user.Username == username && (includeDeleted || user.DateDeleted == null))
@@ -61,12 +61,12 @@ internal class UserDAO {
     }
 
     /// <summary>
-    /// Retrieves from the database the list of every <see cref="User"/> that matches a given <paramref name="criterion"/>.
+    /// Retrieves from the database the list of every <see cref="Product"/> that matches a given <paramref name="criterion"/>.
     /// </summary>
     /// <param name="criterion"></param>
     /// <param name="includeDeleted"></param>
     /// <returns></returns>
-    public List<User> Search(string criterion, bool includeDeleted = false) {
+    public List<Product> Search(string criterion, bool includeDeleted = false) {
         try {
             return this.context.Users
                 .Where(user => (
@@ -83,11 +83,11 @@ internal class UserDAO {
     }
 
     /// <summary>
-    /// Inserts a <see cref="User"/> in the database.
+    /// Inserts a <see cref="Product"/> in the database.
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    public User Create(User user) {
+    public Product Create(Product user) {
         try {
             _ = this.context.Users.Add(user);
             _ = this.context.SaveChanges();
@@ -99,11 +99,11 @@ internal class UserDAO {
     }
 
     /// <summary>
-    /// Updates a <see cref="User"/> in the database.
+    /// Updates a <see cref="Product"/> in the database.
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    public User Update(User user) {
+    public Product Update(Product user) {
         DateTime? originalDateModified = user.DateModified;
         try {
             user.DateModified = DateTime.Now;
@@ -119,12 +119,12 @@ internal class UserDAO {
     }
 
     /// <summary>
-    /// Deletes a <see cref="User"/> from the database.
+    /// Deletes a <see cref="Product"/> from the database.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="softDeletes"></param>
     /// <returns></returns>
-    public User Delete(User user, bool softDeletes = true) {
+    public Product Delete(Product user, bool softDeletes = true) {
         DateTime? originalDateDelated = user.DateDeleted;
         try {
             if (softDeletes) {

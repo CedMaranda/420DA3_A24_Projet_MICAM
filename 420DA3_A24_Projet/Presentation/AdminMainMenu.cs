@@ -31,17 +31,17 @@ internal partial class AdminMainMenu : Form {
     #region GESTION DES UTILISATEURS
 
     /// <summary>
-    /// Empties the <see cref="User"/> search results <see cref="ListBox"/> then fills it with the given
+    /// Empties the <see cref="Product"/> search results <see cref="ListBox"/> then fills it with the given
     /// <paramref name="searchResults"/>.
     /// </summary>
     /// <param name="searchResults"></param>
-    private void ReloadUserSearchResults(List<User> searchResults) {
+    private void ReloadUserSearchResults(List<Product> searchResults) {
         try {
             this.userSearchResults.SelectedItem = null;
             this.userSearchResults.SelectedIndex = -1;
             this.userSearchResults.Items.Clear();
             _ = this.userSearchResults.Items.Add(listNoneSelectedValue);
-            foreach (User user in searchResults) {
+            foreach (Product user in searchResults) {
                 _ = this.userSearchResults.Items.Add(user);
             }
 
@@ -70,7 +70,7 @@ internal partial class AdminMainMenu : Form {
 
     private void ButtonCreateUser_Click(object sender, EventArgs e) {
         try {
-            User? userCree = this.parentApp.UserService.OpenManagementWindowForCreation();
+            Product? userCree = this.parentApp.UserService.OpenManagementWindowForCreation();
             if (userCree != null) {
                 _ = this.userSearchResults.Items.Add(userCree);
                 this.userSearchResults.SelectedItem = userCree;
@@ -84,7 +84,7 @@ internal partial class AdminMainMenu : Form {
     private void UserSearchTextBox_TextChanged(object sender, EventArgs e) {
         try {
             string searchCriterion = this.userSearchTextBox.Text.Trim();
-            List<User> results = this.parentApp.UserService.SearchUsers(searchCriterion);
+            List<Product> results = this.parentApp.UserService.SearchUsers(searchCriterion);
             this.ReloadUserSearchResults(results);
 
         } catch (Exception ex) {
@@ -93,7 +93,7 @@ internal partial class AdminMainMenu : Form {
     }
 
     private void UserSearchResults_SelectedIndexChanged(object sender, EventArgs e) {
-        User? selectedUSer = this.userSearchResults.SelectedItem as User;
+        Product? selectedUSer = this.userSearchResults.SelectedItem as Product;
         if (selectedUSer != null) {
             this.ActivateUserActionButtons();
         } else {
@@ -103,8 +103,8 @@ internal partial class AdminMainMenu : Form {
 
     private void ButtonViewUser_Click(object sender, EventArgs e) {
         try {
-            User selectedUser = (User) this.userSearchResults.SelectedItem;
-            User? createdUser = this.parentApp.UserService.OpenManagementWindowForVisualization(selectedUser);
+            Product selectedUser = (Product) this.userSearchResults.SelectedItem;
+            Product? createdUser = this.parentApp.UserService.OpenManagementWindowForVisualization(selectedUser);
             if (createdUser != null) {
                 _ = this.userSearchResults.Items.Add(createdUser);
                 this.userSearchResults.SelectedItem = createdUser;
@@ -117,7 +117,7 @@ internal partial class AdminMainMenu : Form {
 
     private void ButtonEditUser_Click(object sender, EventArgs e) {
         try {
-            User selectedUser = (User) this.userSearchResults.SelectedItem;
+            Product selectedUser = (Product) this.userSearchResults.SelectedItem;
             bool wasUpdated = this.parentApp.UserService.OpenManagementWindowForEdition(selectedUser);
             if (wasUpdated) {
                 this.userSearchResults.RefreshDisplay();
@@ -131,7 +131,7 @@ internal partial class AdminMainMenu : Form {
 
     private void ButtonDeleteUser_Click(object sender, EventArgs e) {
         try {
-            User selectedUser = (User) this.userSearchResults.SelectedItem;
+            Product selectedUser = (Product) this.userSearchResults.SelectedItem;
             bool wasDeleted = this.parentApp.UserService.OpenManagementWindowForDeletion(selectedUser);
 
             if (wasDeleted) {
