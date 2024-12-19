@@ -127,7 +127,7 @@ internal partial class PurchaseOrderView : Form {
         }
         this.warehouseValue.Items.Clear();
         // TODO @PROF: fix this quand le service entrepot sera créé
-        foreach (Warehouse entrepot in this.parentApp.WarehoueService.GetAllEntrepots()) {
+        foreach (Warehouse entrepot in this.parentApp.WarehouseService.GetAll()) {
             _ = this.warehouseValue.Items.Add(entrepot);
         }
     }

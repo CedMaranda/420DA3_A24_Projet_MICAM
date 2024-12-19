@@ -20,6 +20,8 @@ public class Shipment {
     /// </summary>
     public int Id { get; set; }
 
+    public ShipmentStatusEnum Status { get; set; }
+
     public ShippingProvidersEnum ShippingProvider { get; set; }
 
     /// <summary>
@@ -88,7 +90,8 @@ public class Shipment {
     /// <param name="dateDeleted"></param>
     /// <param name="rowVersion"></param>
     public Shipment(
-        int id, 
+        int id,
+        ShipmentStatusEnum status,
         ShippingProvidersEnum shippingProvider,
         string trackingNumber,
         int shippingOrderId, 
@@ -98,6 +101,7 @@ public class Shipment {
         byte[] rowVersion) {
 
         this.Id = id;
+        this.Status = status;
         this.ShippingProvider = shippingProvider;
         this.TrackingNumber = trackingNumber;
         this.ShippingOrderId = shippingOrderId;
