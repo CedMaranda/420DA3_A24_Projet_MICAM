@@ -10,6 +10,7 @@ public class Product {
 
     private int id;
     private string productName = null!;
+    private string productDescription = null!;
 
 
 
@@ -36,12 +37,12 @@ public class Product {
     public string ProductDescription {
         // TODO @PAULIN : Ici, il y a une erreur: il faut utiliser un backing field
         // au lieu de la propriété dans le get et set comme vous avez fait pour ProductName / productName
-        get { return this.ProductDescription; }
+        get { return this.productDescription; }
         set {
             if (!ValidateProductDescription(value)) {
                 throw new ArgumentOutOfRangeException("ProductDescription", $"ProductDescription length must be lower than or equal to {PRODUCT_DESCRIPTION_MAX_LENGTH} characters.");
             }
-            this.ProductDescription = value;
+            this.productDescription = value;
         }
     }
     public string UPCCode {

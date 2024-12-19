@@ -16,6 +16,8 @@ public class Supplier {
     private int id;
     private string supplierName = null!;
     //private string description = null!;
+    private string supplierContactFirstName = null!;
+    private string supplierContactLastName = null!;
 
     public int Id {
         get { return this.id; }
@@ -39,21 +41,21 @@ public class Supplier {
     //public int Id { get; set; }
     //public string SupplierName { get; set; }ê
     public string SupplierContactLastName {
-        get { return this.SupplierContactLastName; }
+        get { return this.supplierContactLastName; }
         set {
             if (!ValidateContactLastName(value)) {
                 throw new ArgumentOutOfRangeException("LastName", $"LastName length must be lower than or equal to {SUPPLIER_CONTACT_LASTNAME_MAX_LENGTH} characters.");
             }
-            this.SupplierContactLastName = value;
+            this.supplierContactLastName = value;
         }
     }
     public string SupplierContactFirstname {
-        get { return this.SupplierContactFirstname; }
+        get { return this.supplierContactFirstName; }
         set {
             if (!ValidateContactFirstName(value)) {
                 throw new ArgumentOutOfRangeException("FirstName", $"Name length must be lower than or equal to {SUPPLIER_CONTACT_FIRSTNAME_MAX_LENGTH} characters.");
             }
-            this.SupplierContactFirstname = value;
+            this.supplierContactFirstName = value;
         }
     }
     public string SupplierContactEmail { get; set; }
@@ -62,6 +64,7 @@ public class Supplier {
     public DateTime DateCreated { get; set; }
     public DateTime? DateDeleted { get; set; }
     public DateTime? DateModified { get; set; }
+    public byte[] RowVersion { get; set; } = null!;
 
     public virtual List<Product> Products { get; set; } = new List<Product>();
     public string SupplierDescription { get; }

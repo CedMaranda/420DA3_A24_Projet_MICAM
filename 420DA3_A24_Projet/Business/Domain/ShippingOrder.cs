@@ -1,46 +1,23 @@
 ﻿using _420DA3_A24_Projet.Business.Domain.Pivots;
 using Project_Utilities.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.Business.Domain;
-
-/// <summary>
-/// Classe représentant un ordre d'expédition.
-/// </summary>
 public class ShippingOrder {
 
     public int Id { get; set; }
-    public ShippingOrderStatusEnum Status { get; set; }
     public int SourceClientId { get; set; }
     public int CreatorEmployeeId { get; set; }
     public int DestinationAddressId { get; set; }
     public int? FulfillerEmployeeId { get; set; }
-    public DateTime? ShippingDate { get; set; }
-    public DateTime DateCreated { get; set; }
-    public DateTime? DateModified { get; set; }
-    public DateTime? DateDeleted { get; set; }
-    public byte[] RowVersion { get; set; } = null!;
-
-
-    /// <summary>
-    /// Le client de qui provient l'ordre d'expédition.
-    /// </summary>
     public virtual Client SourceClient { get; set; } = null!;
-    /// <summary>
-    /// L'employé créateur de l'ordre d'expédition.
-    /// </summary>
-    public virtual User CreatorEmployee { get; set; } = null!;
-    /// <summary>
-    /// L'adresse de destination finale de l'ordre d'expédition.
-    /// </summary>
-    public virtual Adresse DestinationAddress { get; set; } = null!;
-    /// <summary>
-    /// L'employé d'entrepôt assigné à la complétion de l'ordre d'expédition.
-    /// </summary>
-    public virtual User? FulfillerEmployee { get; set; }
-    /// <summary>
-    /// L'expédition associée à l'ordre d'expédition.
-    /// </summary>
+    public virtual Product CreatorEmployee { get; set; } = null!;
+    public virtual Address DestinationAddress { get; set; } = null!;
+    public virtual Product? FulfillerEmployee { get; set; }
     public virtual Shipment? Shipment { get; set; }
     /// <summary>
     /// La liste des produits associés à l'ordre d'expédition.
