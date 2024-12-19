@@ -7,19 +7,22 @@ using System.Text;
 namespace _420DA3_A24_Projet.Business;
 internal class WsysApplication {
 
-    private WsysDbContext context;
-    private AdminMainMenu adminMainMenu;
-    private OfficeEmpMainMenu officeEmployeeMainMenu;
-    private WhEmpMainMenu warehouseEmployeeMainMenu;
+    private readonly WsysDbContext context;
+    private readonly AdminMainMenu adminMainMenu;
+    private readonly OfficeEmpMainMenu officeEmployeeMainMenu;
+    private readonly WhEmpMainMenu warehouseEmployeeMainMenu;
 
 
     public PasswordService PasswordService { get; private set; }
+    public TrackingNumberFactory TrackingNumberFactory { get; private set; }
     public AdresseService AdresseService { get; private set; }
     public ClientService ClientService { get; private set; }
     public UserService UserService { get; private set; }
     public RoleService RoleService { get; private set; }
     public ShippingOrderService ShippingOrderService { get; private set; }
     public PurchaseOrderService PurchaseOrderService { get; private set; }
+    public WarehouseService WarehouseService { get; private set; }
+    public ShipmentService ShipmentService { get; private set; }
     public LoginService LoginService { get; private set; }
 
 
@@ -28,17 +31,20 @@ internal class WsysApplication {
     public WsysApplication() {
 
         this.context = new WsysDbContext();
+        this.LoginService = new LoginService(this);
         this.PasswordService = PasswordService.GetInstance();
+        this.TrackingNumberFactory = TrackingNumberFactory.GetInstance();
         this.AdresseService = new AdresseService();
         this.ClientService = new ClientService();
         this.UserService = new UserService(this, this.context);
         this.RoleService = new RoleService(this, this.context);
         this.ShippingOrderService = new ShippingOrderService(this, this.context);
         this.PurchaseOrderService = new PurchaseOrderService(this, this.context);
+        this.WarehouseService = new WarehouseService(this, this.context);
+        this.ShipmentService = new ShipmentService(this, this.context);
 
 
 
-        this.LoginService = new LoginService(this);
         this.adminMainMenu = new AdminMainMenu(this);
         this.officeEmployeeMainMenu = new OfficeEmpMainMenu(this);
         this.warehouseEmployeeMainMenu = new WhEmpMainMenu(this);

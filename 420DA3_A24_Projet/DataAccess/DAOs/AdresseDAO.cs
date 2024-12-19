@@ -1,4 +1,9 @@
 ﻿using _420DA3_A24_Projet.DataAccess.Contexts;
+/// <summary>
+/// Classe d'accès aux données pour les adresses. Fournit des méthodes pour récupérer, 
+/// rechercher, créer, mettre à jour et supprimer des enregistrements d'adresse 
+/// dans la base de données. Prend en charge les suppressions logiques et physiques.
+/// </summary>
 
 internal class AdresseDAO {
     private readonly WsysDbContext context;

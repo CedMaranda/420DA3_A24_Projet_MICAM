@@ -1,4 +1,4 @@
-namespace _420DA3_A24_Projet;
+    namespace _420DA3_A24_Projet;
 
 internal static class Program {
     /// <summary>
