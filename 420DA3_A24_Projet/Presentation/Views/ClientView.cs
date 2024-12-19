@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _420DA3_A24_Projet.Presentation.Views;
-public partial class ClientView : Form {
+internal partial class ClientView : Form {
     private readonly ClientService clientService;
 
     public ClientView(ClientService clientService) {

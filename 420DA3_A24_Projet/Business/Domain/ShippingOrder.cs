@@ -10,14 +10,21 @@ namespace _420DA3_A24_Projet.Business.Domain;
 public class ShippingOrder {
 
     public int Id { get; set; }
+    public ShippingOrderStatusEnum Status { get; set; }
     public int SourceClientId { get; set; }
     public int CreatorEmployeeId { get; set; }
     public int DestinationAddressId { get; set; }
     public int? FulfillerEmployeeId { get; set; }
+    public DateTime? ShippingDate { get; set; }
+    public DateTime DateCreated { get; set; }
+    public DateTime? DateModified { get; set; }
+    public DateTime? DateDeleted { get; set; }
+    public byte[] RowVersion { get; set; } = null!;
+
     public virtual Client SourceClient { get; set; } = null!;
-    public virtual Product CreatorEmployee { get; set; } = null!;
-    public virtual Address DestinationAddress { get; set; } = null!;
-    public virtual Product? FulfillerEmployee { get; set; }
+    public virtual User CreatorEmployee { get; set; } = null!;
+    public virtual Adresse DestinationAddress { get; set; } = null!;
+    public virtual User? FulfillerEmployee { get; set; }
     public virtual Shipment? Shipment { get; set; }
     /// <summary>
     /// La liste des produits associés à l'ordre d'expédition.
@@ -59,6 +66,7 @@ public class ShippingOrder {
         int creatorEmployeeId,
         int destinationAddressId,
         int? fulfillerEmployeeId,
+        DateTime? shippingDate,
         DateTime dateCreated,
         DateTime? dateModified,
         DateTime? dateDeleted,
@@ -68,6 +76,7 @@ public class ShippingOrder {
         this.Id = id;
         this.Status = status;
         this.FulfillerEmployeeId = fulfillerEmployeeId;
+        this.ShippingDate = shippingDate;
         this.DateCreated = dateCreated;
         this.DateModified = dateModified;
         this.DateDeleted = dateDeleted;

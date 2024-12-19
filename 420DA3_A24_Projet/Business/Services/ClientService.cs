@@ -5,7 +5,7 @@
 /// créer, mettre à jour et supprimer des clients tout en validant 
 /// les informations fournies.
 /// </summary>
-public class ClientService {
+internal class ClientService {
     private readonly ClientDAO clientDAO;
 
     public ClientService(ClientDAO clientDAO) {

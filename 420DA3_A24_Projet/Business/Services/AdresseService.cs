@@ -5,7 +5,7 @@
 /// rechercher, créer, mettre à jour et supprimer des adresses. Utilise une instance 
 /// de AdresseDAO pour interagir avec la base de données.
 /// </summary>
-public class AdresseService {
+internal class AdresseService {
          
     private readonly AdresseDAO adresseDAO;
 
